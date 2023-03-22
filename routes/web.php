@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
+Auth::routes();
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'Auth\LoginController@showLoginForm');
+Route::get('/logout', 'Auth\LoginController@logout');
+
+Route::get('home', 'InventarioController@getHome')->name('Home');
