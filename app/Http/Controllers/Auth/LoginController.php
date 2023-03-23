@@ -28,7 +28,7 @@ class LoginController extends Controller
             break;
             
         }*/
-        return 'Home';
+        return 'Articulos';
     }
 
     /**
@@ -66,22 +66,20 @@ class LoginController extends Controller
             if ($this->attemptLogin($request)) {
 
                 $Info_usuario = Usuario::find($queryResult);
-                $Rutas = '';
+                $Bodegas = '';
 
                 foreach($Info_usuario as $user)
                 {
                     $request->session()->put('name_session', $user->nombre);
                     $request->session()->put('name_rol', $user->RolName->descripcion);
-                    $request->session()->put('rol', $user->id_rol);
+                    $request->session()->put('rol', $user->id_rol);  
                     foreach ($user->Detalles as $Rts){
-                        $Rutas .= $Rts->RUTA . ' - ';
+                        $Bodegas .= "B".$Rts->RUTA . ' | ';
 
                     }
-                    /**/
-                    $request->session()->put('Rutas', $Rutas);
+                    $Bodegas = rtrim($Bodegas, " | ");
+                    $request->session()->put('Bodegas', $Bodegas);                 
                 }
-                //$rol = DB::table('usuario_rol')->where('usuario_id', $queryResult)->pluck('rol_id');
-                //;
                 return $this->sendLoginResponse($request);
             }
         }

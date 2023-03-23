@@ -17,4 +17,12 @@ Auth::routes();
 Route::get('/', 'Auth\LoginController@showLoginForm');
 Route::get('/logout', 'Auth\LoginController@logout');
 
-Route::get('home', 'InventarioController@getHome')->name('Home');
+Route::post('GuardarInventario', 'InventarioController@postGuardarInventario')->name('GuardarInventario');
+Route::get('Articulos', 'InventarioController@getHome')->name('Home');
+
+Route::get('Usuarios', 'UsuarioController@getUsuarios')->name('Usuarios');
+Route::post('SaveUsuario', 'UsuarioController@SaveUsuario')->name('SaveUsuario');
+Route::post('DeleteUsuario', 'UsuarioController@DeleteUsuario')->name('DeleteUsuario');
+Route::get('getBodegas', 'UsuarioController@getBodegas')->name('getBodegas');
+Route::post('rmBodega', 'UsuarioController@rmBodega')->name('rmBodega');
+Route::post('AsignarBodega', 'UsuarioController@AddBodega')->name('AsignarBodega');

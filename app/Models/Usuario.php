@@ -11,6 +11,9 @@ class Usuario extends Model {
     public function RolName(){
         return $this->hasOne('App\Models\Roles','id','id_rol');
     }
+     public function Detalles(){
+        return $this->hasMany('App\Models\UsuarioRutas','id_usuario','id');
+    }
     public static function getUsuarios()
     {
         return Usuario::where('activo','S')->get();

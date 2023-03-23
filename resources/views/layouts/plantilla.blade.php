@@ -12,6 +12,7 @@
     <!--    Document Title-->
     <!-- ===============================================-->
     <title>INVENTARIO | INNOVA INDUSTRIA </title>
+    <link rel="shortcut icon" href="{{ url('images/ic-inn.png') }}" />
 
 
     <!-- ===============================================-->
@@ -32,9 +33,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
     <link href="{{ asset('js/theme_gumadesk/vendors/overlayscrollbars/OverlayScrollbars.min.css') }}" rel="stylesheet" >
-    <link href="{{ asset('css/theme_gumadesk/css/theme-rtl.min.css') }}" rel="stylesheet" id="style-rtl">
+    
     <link href="{{ asset('css/theme_gumadesk/css/theme.min.css') }}" rel="stylesheet" id="style-default">
-    <link href="{{ asset('css/theme_gumadesk/css/user-rtl.min.css') }}" rel="stylesheet" id="user-style-rtl">
+    <link href="{{ asset('css/theme_gumadesk/css/theme-rtl.css') }}" rel="stylesheet" id="style-rtl">
     <link href="{{ asset('css/theme_gumadesk/css/user.min.css') }}" rel="stylesheet" id="user-style-default">
     <link href="{{ asset('js/theme_gumadesk/vendors/choices/choices.min.css') }}" rel="stylesheet" >
     <link href="{{ asset('css/jquery.dataTables.min.css') }}" rel="stylesheet">
@@ -43,39 +44,29 @@
         var userLinkRTL = document.getElementById('user-style-rtl');
         linkRTL.setAttribute('disabled', true);
         userLinkRTL.setAttribute('disabled', true);
-        function prettyDate(time){
-	var date = new Date((time || "").replace(/-/g,"/").replace(/[TZ]/g," ")),
-		diff = (((new Date()).getTime() - date.getTime()) / 1000),
-		day_diff = Math.floor(diff / 86400);
-			
-	if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
-		return;
-			
-	return day_diff == 0 && (
-			diff < 60 && "just now" ||
-			diff < 120 && "1 minute ago" ||
-			diff < 3600 && Math.floor( diff / 60 ) + " minutes ago" ||
-			diff < 7200 && "1 hour ago" ||
-			diff < 86400 && Math.floor( diff / 3600 ) + " hours ago") ||
-		day_diff == 1 && "Yesterday" ||
-		day_diff < 7 && day_diff + " days ago" ||
-		day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago";
-}
-
-// If jQuery is included in the page, adds a jQuery plugin to handle it as well
-if ( typeof jQuery != "undefined" )
-	jQuery.fn.prettyDate = function(){
-		return this.each(function(){
-			var date = prettyDate(this.title);
-			if ( date )
-				jQuery(this).text( date );
-		});
-	};
-        
     </script>
     <style>
-        .dBorder {
-            border: 1px solid #ccc !important;
+        .bg-shape-inn {
+            position: relative;
+            overflow: hidden;
+            background-color: #831F82;
+        }
+        .btn-bg-inn{
+            background-color: #831F82 !important;
+            border-color: #831F82 !important;
+        }
+        .border-table{
+            border: 1px solid var(--falcon-border-color);
+            box-shadow: var(--falcon-box-shadow-sm);
+            border-radius: .375rem;
+            color: var(--falcon-1000);
+            text-decoration: none;
+            background-color: var(--falcon-notification-bg);
+     
+            font-size: .8333333333rem;
+      
+            transition: all .2s ease-in-out;
+
         }
     </style>
 </head>
@@ -130,25 +121,14 @@ if ( typeof jQuery != "undefined" )
     
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+    <script src="{{ asset('js/jszip.js') }}"></script>
+    <script src="{{ asset('js/xlsx.js') }}"></script>
     <script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     @yield('metodosjs')
     <script type="text/javascript">
 
-        function isValue(value, def, is_return) {
-            if ( $.type(value) == 'null'
-                || $.type(value) == 'undefined'
-                || $.trim(value) == ''
-                || ($.type(value) == 'number' && !$.isNumeric(value))
-                || ($.type(value) == 'array' && value.length == 0)
-                || ($.type(value) == 'object' && $.isEmptyObject(value)) ) {
-                return ($.type(def) != 'undefined') ? def : false;
-            } else {
-                return ($.type(is_return) == 'boolean' && is_return === true ? value : true);
-            }
-        }
+        
     </script>
 
     
