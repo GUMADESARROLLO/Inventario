@@ -38,8 +38,8 @@
                     <thead class="bg-200 text-900">
                         <tr>
                             <th class="sort pe-1 align-middle white-space-nowrap">ARTICULO</th>
-                            <th class="sort pe-1 align-middle white-space-nowrap">EXISITENCIA ACTUAL</th>
-                            <th class="sort pe-1 align-middle white-space-nowrap">EXISTENCIA EN SISTEMA</th>
+                            <th class="sort pe-1 align-middle white-space-nowrap">EXISITENCIA FISICA</th>
+                            <th class="sort pe-1 align-middle white-space-nowrap">EXISTENCIA SISTEMA</th>
                             <th class="sort pe-1 align-middle white-space-nowrap">ULTIMA MODIFICACION</th>
                         </tr>
                     </thead>
@@ -53,7 +53,7 @@
                                         <div class="row g-0 fw-semi-bold text-center py-2 fs--1">
                                             <div class="col-auto">
                                                 <a class="rounded-2 d-flex align-items-center me-3 text-700" href="#!" onclick="OpenModal({{ strtoupper($producto) }})"> 
-                                                <span class="ms-1 fas fa-edit text-primary " data-fa-transform="shrink-2" ></span> 
+                                                <span class="ms-1 fas fa-edit text-primary-inn " data-fa-transform="shrink-2" ></span> 
                                                 <span class="ms-1">Actualizar</span></a>
                                             </div>
                                             <div class="col-auto d-flex align-items-center invisible">
@@ -145,7 +145,7 @@
                             <tr>
                                 <th>Articulo</th>
                                 <th>Descripcion</th>
-                                <th>Total</th>
+                                <th>Fisica</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -205,7 +205,7 @@
                             <div class="row g-sm-4">
                                 <div class="col-12 col-sm-auto">
                                     <div class="mb-3 pe-4 border-sm-end border-200">
-                                        <h6 class="fs--2 text-600 mb-1">Existencia Actual</h6>
+                                        <h6 class="fs--2 text-600 mb-1">Existencia Fisica</h6>
                                         <div class="d-flex align-items-center">
                                             <h5 class="fs-0 text-900 mb-0 me-2" id="id_existencia_actual"> 0.00</h5>
                                         </div>

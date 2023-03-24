@@ -53,6 +53,14 @@
             background-color: #831F82 !important;
             border-color: #831F82 !important;
         }
+        .text-primary-inn {
+            --falcon-text-opacity: 1;
+            color: #831F82 !important;
+        }
+        .text-info-inn {
+            --falcon-text-opacity: 1;
+            color: #F39200 !important;
+        }
         .border-table{
             border: 1px solid var(--falcon-border-color);
             box-shadow: var(--falcon-box-shadow-sm);

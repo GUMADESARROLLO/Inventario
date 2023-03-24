@@ -206,7 +206,7 @@
                     dta_table_header = [
                         {"title": "Articulo","data": "Articulo"},
                         {"title": "Descripcion","data": "Descr"},                                     
-                        {"title": "Total","data": "Total"},
+                        {"title": "Fisica","data": "Total"},
                     ]
                     table_render('#tbl_excel',dta_table_excel,dta_table_header,false)
                 }

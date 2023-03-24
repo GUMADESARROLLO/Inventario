@@ -4,8 +4,8 @@
 
 <a class="navbar-brand me-1 me-sm-3" href="{{ url('Articulos') }}">
   <div class="row gx-0 align-items-center">
-    <h6 class="text-primary fs--1 mb-0">Bienvenido a </h6>
-    <h4 class="text-primary fw-bold mb-0">INVENTARIO <span class="text-info fw-medium">INNOVA</span></h4>
+    <h6 class="text-primary-inn fs--1 mb-0">Bienvenido a </h6>
+    <h4 class="text-primary-inn fw-bold mb-0">INVENTARIO <span class="text-info-inn fw-medium">INNOVA</span></h4>
   </div>
 </a>
 
