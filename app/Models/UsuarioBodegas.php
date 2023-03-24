@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Exception;
 use Illuminate\Http\Request;
 
-class UsuarioRutas extends Model {
-    protected $table = "tbl_rutas_asginadas";
+class UsuarioBodegas extends Model {
+    protected $table = "bodegas_asignadas";
     public static function AddBodega(Request $request) {
         if ($request->ajax()) {
             try {
@@ -15,8 +15,8 @@ class UsuarioRutas extends Model {
                 $Id         = $request->input('Id');
                 $valor      = $request->input('valor');
 
-                $obj = new UsuarioRutas();   
-                $obj->RUTA        = $valor;                
+                $obj = new UsuarioBodegas();   
+                $obj->BODEGA        = $valor;                
                 $obj->id_usuario  = $Id;
                 
                 $response = $obj->save();
@@ -36,7 +36,7 @@ class UsuarioRutas extends Model {
 
                 $id     = $request->input('id');
                 
-                $response = UsuarioRutas::where('id',$id)->delete();
+                $response = UsuarioBodegas::where('id',$id)->delete();
 
                 return response()->json($response);
 

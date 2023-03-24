@@ -68,7 +68,7 @@
                               <div class="col-auto">
                                 @foreach ($usuario->Detalles as $Rutas)
                                     <a class="d-inline-flex align-items-center border rounded-pill px-3 py-1 me-2 mt-2 inbox-link" href="#!" onclick="Remover({{$Rutas}})">
-                                        <span class="fas fa-boxes text-danger" data-fa-transform="grow-4"></span><span class="ms-2"> B{{$Rutas->RUTA}}</span>
+                                        <span class="fas fa-boxes text-danger" data-fa-transform="grow-4"></span><span class="ms-2"> B{{$Rutas->BODEGA}}</span>
                                     </a>
                                 @endforeach
                               </div>

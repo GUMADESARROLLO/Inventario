@@ -3,7 +3,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
 use App\Models\Bodegas;
-use App\Models\UsuarioRutas;
+use App\Models\UsuarioBodegas;
 use App\Models\Roles;
 
 class UsuarioController extends Controller {
@@ -24,7 +24,7 @@ class UsuarioController extends Controller {
     }
     public function AddBodega(Request $request)
     {
-        $response = UsuarioRutas::AddBodega($request);
+        $response = UsuarioBodegas::AddBodega($request);
         return response()->json($response);
     }
     public function DeleteUsuario(Request $request)
@@ -34,7 +34,7 @@ class UsuarioController extends Controller {
     }
     public function rmBodega(Request $request)
     {
-        $response = UsuarioRutas::Remover($request);
+        $response = UsuarioBodegas::Remover($request);
         return response()->json($response);
     }
     public function getBodegas()

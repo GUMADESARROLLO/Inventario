@@ -12,7 +12,7 @@ class Usuario extends Model {
         return $this->hasOne('App\Models\Roles','id','id_rol');
     }
      public function Detalles(){
-        return $this->hasMany('App\Models\UsuarioRutas','id_usuario','id');
+        return $this->hasMany('App\Models\UsuarioBodegas','id_usuario','id');
     }
     public static function getUsuarios()
     {

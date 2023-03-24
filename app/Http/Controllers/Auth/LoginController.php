@@ -72,7 +72,7 @@ class LoginController extends Controller
                     $request->session()->put('name_rol', $user->RolName->descripcion);
                     $request->session()->put('rol', $user->id_rol);  
                     foreach ($user->Detalles as $Rts){
-                        $Bodegas .= "B".$Rts->RUTA . ' | ';
+                        $Bodegas .= "B".$Rts->BODEGA . ' | ';
 
                     }
                     $Bodegas = rtrim($Bodegas, " | ");

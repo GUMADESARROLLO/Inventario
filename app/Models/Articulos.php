@@ -17,7 +17,7 @@ class Articulos extends Model
             $Usuario = Usuario::where('id',Auth::id())->get();
             foreach ($Usuario as $rec){            
                 foreach ($rec->Detalles as $Rts){
-                    $Bodegas[] = $Rts->RUTA;
+                    $Bodegas[] = $Rts->BODEGA;
                 }
             }
             return Articulos::where('BODEGA',$Bodegas)->get();
