@@ -6,15 +6,22 @@
 
     dta_table_excel = [];
     var isError = false
-
+    var TableExcel;
+   
     $(document).ready(function () {
-       
+        
 
        
         $('#id_txt_buscar').on('keyup', function() {   
             var vTableArticulos = $('#tbl_productos').DataTable();     
             vTableArticulos.search(this.value).draw();
         });
+        $('#id_txt_excel').on('keyup', function() {    
+            if(isValue(TableExcel,0,true)){
+                TableExcel.search(this.value).draw();
+            }
+        });
+        
 
         $("#btn_upload").click(function(){
 
@@ -41,7 +48,15 @@
 
 
         $("#articulos_header").text(HeaderArticulo) 
-        $("#articulos_footer").text(FooterArticulo) 
+        $("#articulos_footer").text(FooterArticulo)
+
+        var _EXISTENCIA_ACTUAL = numeral(Articulo.EXISTENCIA_ACTUAL).format('0,0.00')
+        var _EXISTENCIA_SISTEMA = numeral(Articulo.EXISTENCIA_SISTEMA).format('0,0.00')
+
+        $("#id_existencia_actual").text(_EXISTENCIA_ACTUAL) 
+        $("#id_existencia_system").text(_EXISTENCIA_SISTEMA) 
+        $("#id_created_at").text(Articulo.CREATED_AT) 
+        
 
         var TABLE_SETTING = document.querySelector(Selectors.TABLE_SETTING);
         var modal = new window.bootstrap.Modal(TABLE_SETTING);
@@ -77,9 +92,10 @@
         $(id+"_length").hide();
         $(id+"_filter").hide();
     }
+   
     function table_render(Table,datos,Header,Filter){
 
-        $(Table).DataTable({
+        TableExcel = $(Table).DataTable({
             "data": datos,
             "destroy": true,
             "info": false,
@@ -104,13 +120,7 @@
                 "search": "BUSCAR"
             },
             'columns': Header,
-            "columnDefs": [
-                {
-                    "visible": false,
-                    "searchable": false,
-                    "targets": [0]
-                },
-            ],
+           
             rowCallback: function( row, data, index ) {
                 if ( data.Index == 'N/D' ) {
                     $(row).addClass('table-danger');
@@ -140,6 +150,10 @@
                     dta_table_excel = [];
                     isError=false;
 
+                    var isVal = 0;
+                    var NotVal = 0;
+                    var ttSkus = 0;
+
                     var worksheet = workbook.Sheets[sheetName];
                     var range = XLSX.utils.decode_range('B4:E100');
                     var rows = XLSX.utils.sheet_to_json(worksheet, {range: range});
@@ -154,11 +168,11 @@
 
                         if(_Codigo == 'N/D'){
                             isError=true
+                            NotVal++
                         }
 
                         if (/^[0-9N]/.test(_Codigo.charAt(0))){
                             dta_table_excel.push({ 
-                                Index: _Codigo,
                                 Articulo: _Codigo,
                                 Descr: _Descr,
                                 Total : _Total
@@ -167,12 +181,29 @@
                         }
                     });
 
+                    ttSkus = dta_table_excel.length;
+                    isVal   = numeral(isValue((ttSkus - NotVal),'0',true)).format('0,0')
+                    NotVal  = numeral(isValue(NotVal,'0',true)).format('0,0')
+
+                    AVGValido = (isVal / ttSkus) * 100;
+                    AVGValido  = numeral(isValue(AVGValido,'0',true)).format('0.00')+ "%"
+
+                    AVGNotValido = (NotVal / ttSkus) * 100;
+                    AVGNotValido  = numeral(isValue(AVGNotValido,'0',true)).format('0.00') + "%"
+
+                    
+                    $("#ttSKUs").text(dta_table_excel.length) 
+                    $("#ttSKUsValido").text(isVal)
+                    $("#avgValido").text(AVGValido)
+                    $("#avgNotValido").text(AVGNotValido)
+                    $("#ttSKUsNotValido").text(NotVal)
+
                     if(isError){
                         Swal.fire("Codigo de Articulo No encontrado", "Existen articulos sin Definicion de Codigo ", "error");
                     }
 
+
                     dta_table_header = [
-                        {"title": "Index","data": "Index"}, 
                         {"title": "Articulo","data": "Articulo"},
                         {"title": "Descripcion","data": "Descr"},                                     
                         {"title": "Total","data": "Total"},
@@ -250,6 +281,7 @@
             })
         }
     })
+ 
     function handleFileSelect(evt) {    
         var files = evt.target.files;
         var xl2json = new ExcelToJSON();

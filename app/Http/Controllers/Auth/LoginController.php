@@ -58,8 +58,6 @@ class LoginController extends Controller
 
             return $this->sendLockoutResponse($request);
         }
-
-
         $user = $request->username;
         $queryResult = DB::table('users')->where('username', $user)->where('activo', 'S')->pluck('id');
         if (!$queryResult->isEmpty()) {

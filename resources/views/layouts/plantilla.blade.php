@@ -41,9 +41,7 @@
     <link href="{{ asset('css/jquery.dataTables.min.css') }}" rel="stylesheet">
     <script>
         var linkRTL = document.getElementById('style-rtl');
-        var userLinkRTL = document.getElementById('user-style-rtl');
         linkRTL.setAttribute('disabled', true);
-        userLinkRTL.setAttribute('disabled', true);
     </script>
     <style>
         .bg-shape-inn {
@@ -127,6 +125,14 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     @yield('metodosjs')
     <script type="text/javascript">
+
+        function isNumberKey(evt){
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
 
         
     </script>

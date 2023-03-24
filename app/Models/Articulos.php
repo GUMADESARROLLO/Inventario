@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class Articulos extends Model
@@ -12,6 +12,15 @@ class Articulos extends Model
 
     public static function getArticulos()
     {
-        return Articulos::all();
+        if (Auth::check()){
+            $Bodegas = array();
+            $Usuario = Usuario::where('id',Auth::id())->get();
+            foreach ($Usuario as $rec){            
+                foreach ($rec->Detalles as $Rts){
+                    $Bodegas[] = $Rts->RUTA;
+                }
+            }
+            return Articulos::where('BODEGA',$Bodegas)->get();
+        }
     }
 }

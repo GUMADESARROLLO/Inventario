@@ -37,40 +37,43 @@
               <table class="table table-sm table-striped fs--1 mb-0 overflow-hidden" id="tbl_productos">
                     <thead class="bg-200 text-900">
                         <tr>
-                        <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">ARTICULO</th>
-                        <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">EXISITENCIA ACTUAL</th>
-                        <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">EXISTENCIA EN SISTEMA</th>
-                        <th class="sort pe-1 align-middle white-space-nowrap" >Ultima Modificacion</th>
-                        
-                        
+                            <th class="sort pe-1 align-middle white-space-nowrap">ARTICULO</th>
+                            <th class="sort pe-1 align-middle white-space-nowrap">EXISITENCIA ACTUAL</th>
+                            <th class="sort pe-1 align-middle white-space-nowrap">EXISTENCIA EN SISTEMA</th>
+                            <th class="sort pe-1 align-middle white-space-nowrap">ULTIMA MODIFICACION</th>
                         </tr>
                     </thead>
-                    <tbody class="list" id="table-customers-body">
-                        @foreach ($Productos as $producto)  
-                        
-                        <td class="align-middle">
-                        <div class="address d-flex align-items-center position-relative"><img class="rounded-1 border border-200" src="{{ asset('images/item.png') }}"alt="" width="60">
-                            <div class="flex-1 ms-3">
-                            <h6 class="mb-1 fw-semi-bold text-nowrap">{{ strtoupper($producto->DESCRIPCION) }} : {{ strtoupper($producto->UNIDAD_ALMACEN) }}</h6>
-                            <p class="fw-semi-bold mb-0 text-500">{{ strtoupper($producto->ARTICULO) }} | {{ strtoupper($producto->BODEGA) }} - {{ strtoupper($producto->NOMBRE) }} </p>                            
-                            <div class="row g-0 fw-semi-bold text-center py-2 fs--1">
-                                <div class="col-auto">
-                                    <a class="rounded-2 d-flex align-items-center me-3 text-700" href="#!" onclick="OpenModal({{ strtoupper($producto) }})"> 
-                                    <span class="ms-1 fas fa-edit text-primary " data-fa-transform="shrink-2" ></span> 
-                                    <span class="ms-1">Actualizar</span></a>
+                    <tbody id="table-customers-body">
+                        @foreach ($Productos as $producto) 
+                            <td class="align-middle">
+                                <div class="d-flex align-items-center position-relative"><img class="rounded-1" src="{{ asset('images/item.png') }}"alt="" width="60">
+                                    <div class="flex-1 ms-3">
+                                        <h6 class="mb-1 fw-semi-bold text-nowrap">{{ strtoupper($producto->DESCRIPCION) }} : {{ strtoupper($producto->UNIDAD_ALMACEN) }}</h6>
+                                        <p class="fs--2 mb-0">{{ strtoupper($producto->ARTICULO) }} | {{ strtoupper($producto->BODEGA) }} - {{ strtoupper($producto->NOMBRE) }} </p>                            
+                                        <div class="row g-0 fw-semi-bold text-center py-2 fs--1">
+                                            <div class="col-auto">
+                                                <a class="rounded-2 d-flex align-items-center me-3 text-700" href="#!" onclick="OpenModal({{ strtoupper($producto) }})"> 
+                                                <span class="ms-1 fas fa-edit text-primary " data-fa-transform="shrink-2" ></span> 
+                                                <span class="ms-1">Actualizar</span></a>
+                                            </div>
+                                            <div class="col-auto d-flex align-items-center invisible">
+                                                <a class="rounded-2 text-700 d-flex align-items-center" href="#!" onclick="" >
+                                                <span class="ms-1 fas fa-trash-alt text-danger" data-fa-transform="shrink-2" ></span><span class="ms-1">Descargar</span>
+                                                </a>
+                                            </div>
+                                        </div> 
+                                    </div>
                                 </div>
-                                <div class="col-auto d-flex align-items-center invisible">
-                                    <a class="rounded-2 text-700 d-flex align-items-center" href="#!" onclick="" >
-                                    <span class="ms-1 fas fa-trash-alt text-danger" data-fa-transform="shrink-2" ></span><span class="ms-1">Descargar</span>
-                                    </a>
-                                </div>
-                            </div> 
-                            </div>
-                        </div>
-                        </td>
-                        <td class="address align-middle white-space-nowrap ps-5 py-2">{{ number_format($producto->EXISTENCIA_ACTUAL,2) }} {{ strtoupper($producto->UNIDAD_ALMACEN) }}</td>
-                        <td class="address align-middle white-space-nowrap ps-5 py-2">{{ number_format($producto->EXISTENCIA_SISTEMA,2) }} {{ strtoupper($producto->UNIDAD_ALMACEN) }}</td>
-                        <td class="address align-middle white-space-nowrap ps-5 py-2">{{ $producto->created_at }} </td>
+                            </td>
+                            <td class="align-middle white-space-nowrap ps-5 py-2">
+                                <h6 class="mb-0">{{ number_format($producto->EXISTENCIA_ACTUAL,2) }} {{ strtoupper($producto->UNIDAD_ALMACEN) }}</h6>
+                            </td>                        
+                            <td class="align-middle white-space-nowrap ps-5 py-2">
+                                <h6 class="mb-0">{{ number_format($producto->EXISTENCIA_SISTEMA,2) }} {{ strtoupper($producto->UNIDAD_ALMACEN) }}</h6>
+                            </td>
+                            <td class="align-middle white-space-nowrap ps-5 py-2">
+                                <h6 class="mb-0">{{ $producto->created_at }} </h6>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -97,26 +100,68 @@
                   <div class="col-md-12">
                     <input class="form-control" id="frm-upload" type=file  name="files[]"/>
                   </div>
-                </div>
-                  
-                  
-
-                  <div class="mb-3 mt-3">
-                    
-
-                      <div class="border-table" >                        
-                      <table class="table table-hover table-striped overflow-hidden" id="tbl_excel" >
-
-                      </table>  
-                      </div>
-
-
-                    
+                  <div class="row flex-between-center mt-3">
+                    <div class="col-auto">
+                        <div class="input-group" >                            
+                            <div class="input-group-text bg-transparent">
+                                <span class="fa fa-search fs--1 text-600"></span>
+                            </div>
+                            <input class="form-control form-control-sm shadow-none search" type="search" placeholder="Buscar..." aria-label="search" id="id_txt_excel" />
+                        </div>
+                    </div>
+                    <div class="col-auto ">
+                        <div class="row g-sm-4">
+                        <div class="col-12 col-sm-auto">
+                            <div class="pe-4 border-sm-end border-200">
+                            <h6 class="fs--2 text-600 mb-1">SKUs Total</h6>
+                            <div class="d-flex align-items-center">
+                                <h5 class="fs-0 text-900 mb-0 me-2" id="ttSKUs">-</h5><span class="badge rounded-pill badge-soft-primary"> 100%</span>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-auto">
+                            <div class="pe-4 border-sm-end border-200">
+                            <h6 class="fs--2 text-600 mb-1">SKUs Validados</h6>
+                            <div class="d-flex align-items-center">
+                                <h5 class="fs-0 text-900 mb-0 me-2" id="ttSKUsValido">-</h5><span class="badge rounded-pill badge-soft-success" id="avgValido"> - </span>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-auto">
+                            <div class="pe-0">
+                            <h6 class="fs--2 text-600 mb-1">SKUs Invalidos</h6>
+                            <div class="d-flex align-items-center">
+                                <h5 class="fs-0 text-900 mb-0 me-2" id="ttSKUsNotValido">-</h5><span class="badge rounded-pill badge-soft-danger" id="avgNotValido"> - </span>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                  <div class="col-md-12 mt-3">
+                    <div class="border-table" >                        
+                        <table class="table table-hover table-striped overflow-hidden" id="tbl_excel" >
+                        <thead>
+                            <tr>
+                                <th>Articulo</th>
+                                <th>Descripcion</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        </tbody>
+                        </table>  
+                    </div>
                   </div>
-                              
-                  <div class="mb-3">
-                    <button class="btn btn-bg-inn btn-primary d-block w-100 mt-3" id="id_send_data_excel" type="submit" name="submit">Cargar</button>
-                  </div>
+                  <button class="btn btn-bg-inn btn-primary d-block w-100 mt-3" id="id_send_data_excel" type="submit" name="submit">Cargar</button>
+                </div>                                 
+                  
               </div>
             </div>
           </div>
@@ -162,7 +207,7 @@
                                     <div class="mb-3 pe-4 border-sm-end border-200">
                                         <h6 class="fs--2 text-600 mb-1">Existencia Actual</h6>
                                         <div class="d-flex align-items-center">
-                                            <h5 class="fs-0 text-900 mb-0 me-2" id=""> 0.00</h5>
+                                            <h5 class="fs-0 text-900 mb-0 me-2" id="id_existencia_actual"> 0.00</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -170,7 +215,7 @@
                                 <div class="mb-3 pe-4 border-sm-end border-200">
                                     <h6 class="fs--2 text-600 mb-1">Existencia Sistema</h6>
                                 <div class="d-flex align-items-center">
-                                    <h5 class="fs-0 text-900 mb-0 me-2" id="">0.00</h5>
+                                    <h5 class="fs-0 text-900 mb-0 me-2" id="id_existencia_system">0.00</h5>
                                 </div>
                             </div>
                         </div>
@@ -179,7 +224,7 @@
                             <div class="mb-3 pe-0">
                                 <h6 class="fs--2 text-600 mb-1">Ultima Modificacion</h6>
                                 <div class="d-flex align-items-center">
-                                    <h5 class="fs-0 text-900 mb-0 me-2" id=""> {{ date('F d, Y, h:m A', strtotime(date('y-m-d')))  }} </h5>
+                                    <h5 class="fs-0 text-900 mb-0 me-2" id="id_created_at"> --- </h5>
                                 </div>
                             </div>
                         </div>
@@ -189,8 +234,8 @@
             </div>
             <form class="row g-2 needs-validation" novalidate="">
                 <div class="col-md-12">
-                    <label class="form-label" for="art_cant_ingreso">Cantidad:</label>
-                    <input class="form-control" id="art_cant_ingreso" type="text" required="" />
+                    <label class="form-label" for="art_cant_ingreso">Existencia Actual:</label>
+                    <input class="form-control"  type="text" id="art_cant_ingreso" size=20 maxlength=12 onkeypress='return isNumberKey(event)' required="" placeholder="0.00">
                     <div class="invalid-feedback">Ingrese una Cantidad.</div>
                 </div>
                 <div class="col-12">
