@@ -43,7 +43,7 @@
 
   
     function OpenModal(Articulo){
-        var HeaderArticulo = Articulo.DESCRIPCION + " : " + Articulo.UNIDAD_ALMACEN
+        var HeaderArticulo = Articulo.DESCRIPCION 
         var FooterArticulo = Articulo.ARTICULO + " | " + Articulo.BODEGA +" - " + Articulo.NOMBRE
 
 
@@ -53,10 +53,17 @@
         var _EXISTENCIA_ACTUAL = numeral(Articulo.EXISTENCIA_ACTUAL).format('0,0.00')
         var _EXISTENCIA_SISTEMA = numeral(Articulo.EXISTENCIA_SISTEMA).format('0,0.00')
 
+        var _JUMBOS = numeral(Articulo.JUMBOS).format('0.00')
+        var _FISICO = numeral(Articulo.EXISTENCIA_ACTUAL).format('0.00')
+
         $("#id_existencia_actual").text(_EXISTENCIA_ACTUAL) 
-        $("#id_existencia_system").text(_EXISTENCIA_SISTEMA) 
+        $("#id_existencia_system").text(_EXISTENCIA_SISTEMA + " " + Articulo.UNIDAD_ALMACEN) 
         $("#id_created_at").text(Articulo.CREATED_AT) 
         
+        $("#art_code").val(Articulo.ARTICULO)
+        
+        $("#art_cant_ingreso").val(_FISICO)
+        $("#id_jumbos").val(_JUMBOS)
 
         var TABLE_SETTING = document.querySelector(Selectors.TABLE_SETTING);
         var modal = new window.bootstrap.Modal(TABLE_SETTING);
@@ -146,7 +153,7 @@
 
                
 
-                if(sheetName=='INV GRL'){
+                if(sheetName=='INVENTARIO'){
                     dta_table_excel = [];
                     isError=false;
 
@@ -155,16 +162,16 @@
                     var ttSkus = 0;
 
                     var worksheet = workbook.Sheets[sheetName];
-                    var range = XLSX.utils.decode_range('B4:E100');
+                    var range = XLSX.utils.decode_range('A1:E200');
                     var rows = XLSX.utils.sheet_to_json(worksheet, {range: range});
-                    
-                    
 
                     rows.forEach(function(row) {
-                        var _Codigo   = isValue(row.Codigo,'N/D',true)
+
+                        var _Codigo   = isValue(row.ARTICULO,'N/D',true)
                         var index     = _Codigo;
-                        var _Total    = numeral(isValue(row.Total,'0',true)).format('00.00')
-                        var _Descr    = isValue(row["Descripcion de Producto"],'Columna <strong>"Descripcion de Producto"</strong> no Encontrada',true)
+                        var _Total    = numeral(isValue(row.FISICO,'0',true)).format('00.00')
+                        var _Jumbo    = numeral(isValue(row.JUMBOS,'0',true)).format('00.00')
+                        var _Descr    = isValue(row["DESCRIPCION"],'Columna <strong>"Descripcion de Producto"</strong> no Encontrada',true)
 
                         if(_Codigo == 'N/D'){
                             isError=true
@@ -174,8 +181,9 @@
                         if (/^[0-9N]/.test(_Codigo.charAt(0))){
                             dta_table_excel.push({ 
                                 Articulo: _Codigo,
-                                Descr: _Descr,
-                                Total : _Total
+                                Descr   : _Descr,
+                                Total   : _Total,
+                                Jumbo   : _Jumbo
                             })
                             
                         }
@@ -207,6 +215,7 @@
                         {"title": "Articulo","data": "Articulo"},
                         {"title": "Descripcion","data": "Descr"},                                     
                         {"title": "Fisica","data": "Total"},
+                        {"title": "Jumbo","data": "Jumbo"},
                     ]
                     table_render('#tbl_excel',dta_table_excel,dta_table_header,false)
                 }

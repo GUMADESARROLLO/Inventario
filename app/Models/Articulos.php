@@ -20,7 +20,7 @@ class Articulos extends Model
                     $Bodegas[] = $Rts->BODEGA;
                 }
             }
-            return Articulos::where('BODEGA',$Bodegas)->get();
+            return Articulos::whereIn('BODEGA',$Bodegas)->get();
         }
     }
 }

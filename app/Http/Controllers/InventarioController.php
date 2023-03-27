@@ -20,4 +20,12 @@ class InventarioController extends Controller {
         $response = TablaArticulos::GuardarListas($request);
         return response()->json($response);
     }
+
+    public function GuardarCantidad(Request $request)
+    {
+        
+        TablaArticulos::GuardarCantidad($request);
+        
+        return back()->withInput();
+    }
 }  

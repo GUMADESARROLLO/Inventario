@@ -19,6 +19,7 @@ Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::post('GuardarInventario', 'InventarioController@postGuardarInventario')->name('GuardarInventario');
 Route::get('Articulos', 'InventarioController@getHome')->name('Home');
+Route::post('GuardarCantidad', 'InventarioController@GuardarCantidad')->name('GuardarCantidad');
 
 Route::get('Usuarios', 'UsuarioController@getUsuarios')->name('Usuarios');
 Route::post('SaveUsuario', 'UsuarioController@SaveUsuario')->name('SaveUsuario');

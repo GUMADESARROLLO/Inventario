@@ -39,6 +39,7 @@
                         <tr>
                             <th class="sort pe-1 align-middle white-space-nowrap">ARTICULO</th>
                             <th class="sort pe-1 align-middle white-space-nowrap">EXISITENCIA FISICA</th>
+                            <th class="sort pe-1 align-middle white-space-nowrap">JUMBOS</th>
                             <th class="sort pe-1 align-middle white-space-nowrap">EXISTENCIA SISTEMA</th>
                             <th class="sort pe-1 align-middle white-space-nowrap">ULTIMA MODIFICACION</th>
                         </tr>
@@ -67,6 +68,9 @@
                             </td>
                             <td class="align-middle white-space-nowrap ps-5 py-2">
                                 <h6 class="mb-0">{{ number_format($producto->EXISTENCIA_ACTUAL,2) }} {{ strtoupper($producto->UNIDAD_ALMACEN) }}</h6>
+                            </td>
+                            <td class="align-middle white-space-nowrap ps-5 py-2">
+                                <h6 class="mb-0">{{ number_format($producto->JUMBOS,2) }} </h6>
                             </td>                        
                             <td class="align-middle white-space-nowrap ps-5 py-2">
                                 <h6 class="mb-0">{{ number_format($producto->EXISTENCIA_SISTEMA,2) }} {{ strtoupper($producto->UNIDAD_ALMACEN) }}</h6>
@@ -97,8 +101,13 @@
               </div>
               <div class="modal-body py-4 px-5 ">
                 <div class="row">
-                  <div class="col-md-12">
-                    <input class="form-control" id="frm-upload" type=file  name="files[]"/>
+                  <div class="col-md-12">                    
+                    <div class="input-group">
+                        <input class="form-control" id="frm-upload" type=file  name="files[]"/>                    
+                        <span class="input-group-text">
+                            <a href="{{ asset('doc/plantilla.xlsx') }}"> <span class="fas fa-file-excel fs--1 text-success"></span></a>
+                        </span>
+                    </div>
                   </div>
                   <div class="row flex-between-center mt-3">
                     <div class="col-auto">
@@ -109,6 +118,7 @@
                             <input class="form-control form-control-sm shadow-none search" type="search" placeholder="Buscar..." aria-label="search" id="id_txt_excel" />
                         </div>
                     </div>
+
                     <div class="col-auto ">
                         <div class="row g-sm-4">
                         <div class="col-12 col-sm-auto">
@@ -146,6 +156,7 @@
                                 <th>Articulo</th>
                                 <th>Descripcion</th>
                                 <th>Fisica</th>
+                                <th>Jumbos</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -232,11 +243,22 @@
                     </div>
                 </div>
             </div>
-            <form class="row g-2 needs-validation" novalidate="">
-                <div class="col-md-12">
-                    <label class="form-label" for="art_cant_ingreso">Existencia Actual:</label>
-                    <input class="form-control"  type="text" id="art_cant_ingreso" size=20 maxlength=12 onkeypress='return isNumberKey(event)' required="" placeholder="0.00">
+            <form class="row g-2 needs-validation" novalidate="" method="POST" action="{{ route('GuardarCantidad') }}">
+            @csrf
+                <div class="col-md-6">
+                    <label class="form-label" for="art_cant_ingreso">Existencia Fisica Actual:</label>
+                    <input class="form-control"  type="text" id="art_cant_ingreso" name='art_cant_ingreso' size=20 maxlength=12 onkeypress='return isNumberKey(event)' required="" placeholder="0.00">
                     <div class="invalid-feedback">Ingrese una Cantidad.</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label" for="cant_jumbos">Jumbos</label>
+                    <input class="form-control"  type="text" id="id_jumbos" name='cant_jumbos' size=20 maxlength=12 onkeypress='return isNumberKey(event)' required="" placeholder="0.00">
+                    <div class="invalid-feedback">Ingrese una Cantidad.</div>
+                </div>
+
+                <div class="col-md-12 d-none">
+                    <input class="form-control"  type="text" id='art_code' name="art_code" >
                 </div>
                 <div class="col-12">
                     <button class="btn btn-bg-inn btn-primary" type="submit">Guardar</button>
