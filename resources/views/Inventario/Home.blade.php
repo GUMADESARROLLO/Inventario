@@ -38,9 +38,8 @@
                     <thead class="bg-200 text-900">
                         <tr>
                             <th class="sort pe-1 align-middle white-space-nowrap">ARTICULO</th>
-                            <th class="sort pe-1 align-middle white-space-nowrap">EXISITENCIA FISICA</th>
+                            <th class="sort pe-1 align-middle white-space-nowrap">EXISITENCIA</th>
                             <th class="sort pe-1 align-middle white-space-nowrap">JUMBOS</th>
-                            <th class="sort pe-1 align-middle white-space-nowrap">EXISTENCIA SISTEMA</th>
                             <th class="sort pe-1 align-middle white-space-nowrap">ULTIMA MODIFICACION</th>
                         </tr>
                     </thead>
@@ -49,8 +48,8 @@
                             <td class="align-middle">
                                 <div class="d-flex align-items-center position-relative"><img class="rounded-1" src="{{ asset('images/item.png') }}"alt="" width="60">
                                     <div class="flex-1 ms-3">
-                                        <h6 class="mb-1 fw-semi-bold text-nowrap">{{ strtoupper($producto->DESCRIPCION) }} : {{ strtoupper($producto->UNIDAD_ALMACEN) }}</h6>
-                                        <p class="fs--2 mb-0">{{ strtoupper($producto->ARTICULO) }} | {{ strtoupper($producto->BODEGA) }} - {{ strtoupper($producto->NOMBRE) }} </p>                            
+                                        <h6 class="mb-1 fw-semi-bold text-nowrap">{{ strtoupper($producto->DESCRIPCION) }} </h6>
+                                        <p class="fs--2 mb-0">{{ strtoupper($producto->ARTICULO) }} | {{ strtoupper($producto->UND) }}  </p>                            
                                         <div class="row g-0 fw-semi-bold text-center py-2 fs--1">
                                             <div class="col-auto">
                                                 <a class="rounded-2 d-flex align-items-center me-3 text-700" href="#!" onclick="OpenModal({{ strtoupper($producto) }})"> 
@@ -67,16 +66,14 @@
                                 </div>
                             </td>
                             <td class="align-middle white-space-nowrap ps-5 py-2">
-                                <h6 class="mb-0">{{ number_format($producto->EXISTENCIA_ACTUAL,2) }} {{ strtoupper($producto->UNIDAD_ALMACEN) }}</h6>
+                                <h6 class="mb-0">{{ number_format($producto->CANTIDAD,2) }} {{ strtoupper($producto->UND) }}</h6>
                             </td>
                             <td class="align-middle white-space-nowrap ps-5 py-2">
                                 <h6 class="mb-0">{{ number_format($producto->JUMBOS,2) }} </h6>
                             </td>                        
+                            
                             <td class="align-middle white-space-nowrap ps-5 py-2">
-                                <h6 class="mb-0">{{ number_format($producto->EXISTENCIA_SISTEMA,2) }} {{ strtoupper($producto->UNIDAD_ALMACEN) }}</h6>
-                            </td>
-                            <td class="align-middle white-space-nowrap ps-5 py-2">
-                                <h6 class="mb-0">{{ $producto->created_at }} </h6>
+                                <h6 class="mb-0">{{ date('D, M d, Y', strtotime($producto->created_at))  }} </h6>
                             </td>
                         </tr>
                         @endforeach
@@ -155,6 +152,7 @@
                             <tr>
                                 <th>Articulo</th>
                                 <th>Descripcion</th>
+                                <th>Unidad</th>
                                 <th>Fisica</th>
                                 <th>Jumbos</th>
                             </tr>
@@ -213,23 +211,16 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <div class="row g-sm-4">
-                                <div class="col-12 col-sm-auto">
-                                    <div class="mb-3 pe-4 border-sm-end border-200">
-                                        <h6 class="fs--2 text-600 mb-1">Existencia Fisica</h6>
-                                        <div class="d-flex align-items-center">
-                                            <h5 class="fs-0 text-900 mb-0 me-2" id="id_existencia_actual"> 0.00</h5>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="row g-sm-4">
                             <div class="col-12 col-sm-auto">
                                 <div class="mb-3 pe-4 border-sm-end border-200">
-                                    <h6 class="fs--2 text-600 mb-1">Existencia Sistema</h6>
-                                <div class="d-flex align-items-center">
-                                    <h5 class="fs-0 text-900 mb-0 me-2" id="id_existencia_system">0.00</h5>
+                                    <h6 class="fs--2 text-600 mb-1">Existencia Fisica</h6>
+                                    <div class="d-flex align-items-center">
+                                        <h5 class="fs-0 text-900 mb-0 me-2" id="id_existencia_actual"> 0.00</h5>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                           
                             
                         <div class="col-12 col-sm-auto">
                             <div class="mb-3 pe-0">

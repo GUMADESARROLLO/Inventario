@@ -44,23 +44,21 @@
   
     function OpenModal(Articulo){
         var HeaderArticulo = Articulo.DESCRIPCION 
-        var FooterArticulo = Articulo.ARTICULO + " | " + Articulo.BODEGA +" - " + Articulo.NOMBRE
+        var FooterArticulo = Articulo.ARTICULO + " | " + Articulo.UND
 
 
         $("#articulos_header").text(HeaderArticulo) 
         $("#articulos_footer").text(FooterArticulo)
 
-        var _EXISTENCIA_ACTUAL = numeral(Articulo.EXISTENCIA_ACTUAL).format('0,0.00')
-        var _EXISTENCIA_SISTEMA = numeral(Articulo.EXISTENCIA_SISTEMA).format('0,0.00')
+        var _CANTIDAD = numeral(Articulo.CANTIDAD).format('0,0.00')
 
         var _JUMBOS = numeral(Articulo.JUMBOS).format('0.00')
-        var _FISICO = numeral(Articulo.EXISTENCIA_ACTUAL).format('0.00')
+        var _FISICO = numeral(Articulo.CANTIDAD).format('0.00')
 
-        $("#id_existencia_actual").text(_EXISTENCIA_ACTUAL) 
-        $("#id_existencia_system").text(_EXISTENCIA_SISTEMA + " " + Articulo.UNIDAD_ALMACEN) 
+        $("#id_existencia_actual").text(_CANTIDAD  + " " + Articulo.UND) 
         $("#id_created_at").text(Articulo.CREATED_AT) 
         
-        $("#art_code").val(Articulo.ARTICULO)
+        $("#art_code").val(Articulo.ID)
         
         $("#art_cant_ingreso").val(_FISICO)
         $("#id_jumbos").val(_JUMBOS)
@@ -170,6 +168,7 @@
                         var _Codigo   = isValue(row.ARTICULO,'N/D',true)
                         var index     = _Codigo;
                         var _Total    = numeral(isValue(row.FISICO,'0',true)).format('00.00')
+                        var _Unida    = isValue(row.UNIDAD,'N/D',true)
                         var _Jumbo    = numeral(isValue(row.JUMBOS,'0',true)).format('00.00')
                         var _Descr    = isValue(row["DESCRIPCION"],'Columna <strong>"Descripcion de Producto"</strong> no Encontrada',true)
 
@@ -182,6 +181,7 @@
                             dta_table_excel.push({ 
                                 Articulo: _Codigo,
                                 Descr   : _Descr,
+                                Unida   : _Unida,
                                 Total   : _Total,
                                 Jumbo   : _Jumbo
                             })
@@ -213,7 +213,8 @@
 
                     dta_table_header = [
                         {"title": "Articulo","data": "Articulo"},
-                        {"title": "Descripcion","data": "Descr"},                                     
+                        {"title": "Descripcion","data": "Descr"}, 
+                        {"title": "Unidad","data": "Unida"},                                     
                         {"title": "Fisica","data": "Total"},
                         {"title": "Jumbo","data": "Jumbo"},
                     ]
