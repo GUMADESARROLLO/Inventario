@@ -73,7 +73,7 @@
                             </td>                        
                             
                             <td class="align-middle white-space-nowrap ps-5 py-2">
-                                <h6 class="mb-0">{{ date('D, M d, Y', strtotime($producto->created_at))  }} </h6>
+                                <h6 class="mb-0">{{ date('D, M d, Y h:i', strtotime($producto->created_at))  }} </h6>
                             </td>
                         </tr>
                         @endforeach
