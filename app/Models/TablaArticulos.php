@@ -51,6 +51,7 @@ class TablaArticulos extends Model
                 TablaArticulos::where('ID',  $id)->update([
                     "CANTIDAD"  => $CT,
                     "JUMBOS"    => $JB,
+                    "created_at"    => date('Y-m-d H:i:s')
                 ]);
 
                 /*$isExit = TablaArticulos::isExiste($id);
