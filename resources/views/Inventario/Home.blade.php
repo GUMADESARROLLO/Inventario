@@ -49,7 +49,14 @@
                                 <div class="d-flex align-items-center position-relative"><img class="rounded-1" src="{{ asset('images/item.png') }}"alt="" width="60">
                                     <div class="flex-1 ms-3">
                                         <h6 class="mb-1 fw-semi-bold text-nowrap">{{ strtoupper($producto->DESCRIPCION) }} </h6>
-                                        <p class="fs--2 mb-0">{{ strtoupper($producto->ARTICULO) }} | {{ strtoupper($producto->UND) }}  </p>                            
+                                        <p class="fs--2 mb-0">{{ strtoupper($producto->ARTICULO) }} | {{ strtoupper($producto->UND) }}                                             
+                                            @if (Auth::user()->id_rol == 4 || Auth::user()->id_rol == 1)
+                                                <span class="ms-1  badge rounded-pill bg-primary"> {{ $producto->user->rol->descripcion }}</span> 
+                                            @endif
+                                               
+                                        
+                                        </p>   
+                                                      
                                         <div class="row g-0 fw-semi-bold text-center py-2 fs--1">
                                             <div class="col-auto">
                                                 <a class="rounded-2 d-flex align-items-center me-3 text-700" href="#!" onclick="OpenModal({{ strtoupper($producto) }})"> 

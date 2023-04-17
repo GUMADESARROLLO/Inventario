@@ -8,10 +8,19 @@ use Illuminate\Support\Facades\Hash;
 
 class Usuario extends Model {
     protected $table = "users";
-    public function RolName(){
+    protected $connection = 'mysql';
+
+    public function rol()
+    {
+        return $this->belongsTo(Roles::class, 'id_rol');
+    }
+
+    public function RolName()
+    {
         return $this->hasOne('App\Models\Roles','id','id_rol');
     }
-     public function Detalles(){
+     public function Detalles()
+     {
         return $this->hasMany('App\Models\UsuarioBodegas','id_usuario','id');
     }
     public static function getUsuarios()

@@ -13,7 +13,7 @@
       <h4 class="text-primary-inn fw-bold mb-0">PRODUCTO <span class="text-info-inn fw-medium">TERMINADO</span></h4>
     @else
       <h6 class="text-primary-inn fs--1 mb-0">Inventario de </h6>
-      <h4 class="text-primary-inn fw-bold mb-0">INNOVA <span class="text-info-inn fw-medium">INDUSTRI</span></h4>
+      <h4 class="text-primary-inn fw-bold mb-0">INNOVA <span class="text-info-inn fw-medium">INDUSTRIA</span></h4>
     @endif
     
     
