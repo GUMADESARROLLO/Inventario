@@ -59,9 +59,14 @@
                                                       
                                         <div class="row g-0 fw-semi-bold text-center py-2 fs--1">
                                             <div class="col-auto">
-                                                <a class="rounded-2 d-flex align-items-center me-3 text-700" href="#!" onclick="OpenModal({{ strtoupper($producto) }})"> 
-                                                <span class="ms-1 fas fa-edit text-primary-inn " data-fa-transform="shrink-2" ></span> 
-                                                <span class="ms-1">Actualizar</span></a>
+                                                <a class="rounded-2 d-flex align-items-center me-3 text-700" href="#!" onclick="OpenModal({{ strtoupper($producto) }},'In')"> 
+                                                <span class="ms-1 fas fa-upload text-success  " data-fa-transform="shrink-2" ></span> 
+                                                <span class="ms-1">Entrada</span></a>
+                                            </div>
+                                            <div class="col-auto">
+                                                <a class="rounded-2 d-flex align-items-center me-3 text-700" href="#!" onclick="OpenModal({{ strtoupper($producto) }},'Out')"> 
+                                                <span class="ms-1 fas fa-download text-warning " data-fa-transform="shrink-2" ></span> 
+                                                <span class="ms-1">Salida</span></a>
                                             </div>
                                             <div class="col-auto d-flex align-items-center invisible">
                                                 <a class="rounded-2 text-700 d-flex align-items-center" href="#!" onclick="" >
@@ -192,82 +197,142 @@
     <!--OPEN MODALS -->
     <div class="modal fade" id="modal_new_product" tabindex="-1">
         <div class="modal-dialog modal-xl">
-        <div class="modal-content border-0">
-        <div class="modal-header px-5 position-relative modal-shape-header bg-shape-inn">
-            <div class="position-relative z-index-1 light">
-                <h4 class="mb-0 text-white" id="authentication-modal-label">Ingreso</h4>
-            </div>
-            <button class="btn-close btn-close-white position-absolute top-0 end-0 mt-2 me-2" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-card">
-                <div class="row">
-                    <div class="row flex-between-center">
-                        <div class="col-auto">
-                            <div class="d-flex align-items-center position-relative mt-0">
-                                <div class="avatar avatar-xl ">
-                                    <img class="rounded-circle" src="{{ asset('images/item.png') }}"   />
-                                </div>
-                                <div class="flex-1 ms-3">
-                                    <h6 class="mb-0 fw-semi-bold">
-                                        <a class="stretched-link text-900 fw-semi-bold" href="#!" >
-                                            <div class="stretched-link text-900" id='articulos_header'>Cargando ...</div>
-                                        </a>
-                                    </h6>
-                                    <p class="text-500 fs--2 mb-0"id='articulos_footer'>Cargando ... </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                        <div class="row g-sm-4">
-                            <div class="col-12 col-sm-auto">
-                                <div class="mb-3 pe-4 border-sm-end border-200">
-                                    <h6 class="fs--2 text-600 mb-1">Existencia Fisica</h6>
-                                    <div class="d-flex align-items-center">
-                                        <h5 class="fs-0 text-900 mb-0 me-2" id="id_existencia_actual"> 0.00</h5>
+            <div class="modal-content border-0">
+                <div class="modal-header px-5 position-relative modal-shape-header bg-shape-inn">
+                    <div class="position-relative z-index-1 light">
+                        <h4 class="mb-0 text-white" id="id_lbl_modal_kardex">KARDEX</h4>
+                    </div>
+                    <button class="btn-close btn-close-white position-absolute top-0 end-0 mt-2 me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-card bg-light ">
+                    
+                    <div class="row">
+                        <div class="row flex-between-center">
+                            <div class="col-auto">
+                                <div class="d-flex align-items-center position-relative mt-0">
+                                    <div class="avatar avatar-xl ">
+                                        <img class="rounded-circle" src="{{ asset('images/item.png') }}"   />
+                                    </div>
+                                    <div class="flex-1 ms-3">
+                                        <h6 class="mb-0 fw-semi-bold">
+                                            <a class="stretched-link text-900 fw-semi-bold" href="#!" >
+                                                <div class="stretched-link text-900" id='articulos_header'>Cargando ...</div>
+                                            </a>
+                                        </h6>
+                                        <p class="text-500 fs--2 mb-0"id='articulos_footer'>Cargando ... </p>
                                     </div>
                                 </div>
                             </div>
-                           
+                            <div class="col-auto">
+                                <div class="row g-sm-4">
+                                    <div class="col-12 col-sm-auto">
+                                        <div class="mb-3 pe-4 border-sm-end border-200">
+                                            <h6 class="fs--2 text-600 mb-1">Existencia Fisica</h6>
+                                            <div class="d-flex align-items-center">
+                                                <h5 class="fs-0 text-900 mb-0 me-2" id="id_existencia_actual"> 0.00</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                
+                                
+                                <div class="col-12 col-sm-auto">
+                                    <div class="mb-3 pe-0">
+                                        <h6 class="fs--2 text-600 mb-1">Ultima Modificacion</h6>
+                                        <div class="d-flex align-items-center">
+                                            <h5 class="fs-0 text-900 mb-0 me-2" id="id_created_at"> --- </h5>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        </div>
+                    </div>                
+                    
+                    <div class="card ms-3">                        
+                        <div class="card-body ">
+                        <form class="row g-2 needs-validation" novalidate="" method="POST" action="{{ route('GuardarCantidad') }}">
+                        @csrf
+                        <div class="col-md-12 d-none">
+                            <input class="form-control"  type="text" id='art_code' name="art_code" >
+                            <input class="form-control"  type="text" id='id_event' name="id_event" >
+                            <input class="form-control"  type="text" id='exist_actual' name="exist_actual" >
+                        </div>  
+                        <div class="row gx-2">
+                          <div class="mb-2 col-sm-4">  
+                            <label class="form-label" for="art_cant_ingreso">Cantidad</label>                          
+                            <input class="form-control" id="art_cant_ingreso" type="text" name='art_cant_ingreso' size=20 maxlength=12 onkeypress='return isNumberKey(event)' required="" placeholder="0.00"/>
+                            <div class="invalid-feedback">Ingrese una Cantidad.</div>
+                          </div>
+                          <div class="mb-2 col-sm-4">
+                            <label class="form-label" for="art_cant_ingreso">Jumbos</label>
+                            <input class="form-control" id="id_jumbos" type="text" name='cant_jumbos' size=20 maxlength=12 onkeypress='return isNumberKey(event)' required="" placeholder="0.00"/>
+                            <div class="invalid-feedback">Ingrese una Cantidad.</div>
+                          </div>
+                          <div class="mb-2 col-sm-4"> 
+                          <label class="form-label" for="art_cant_ingreso">Fecha.</label>                           
+                            <div class="input-group" >
+                                <input class="form-control" id="id_jumbos" type="date" name='dateEvent' value="{{date('Y-m-d')}}" placeholder="{{date('Y/m/d')}}" />
                             
-                        <div class="col-12 col-sm-auto">
-                            <div class="mb-3 pe-0">
-                                <h6 class="fs--2 text-600 mb-1">Ultima Modificacion</h6>
-                                <div class="d-flex align-items-center">
-                                    <h5 class="fs-0 text-900 mb-0 me-2" id="id_created_at"> --- </h5>
+                                <button class="btn btn-bg-inn btn-primary" type="submit">Guardar</button>
+                            </div>
+                          </div>
+                        </div>
+                       
+                        
+                      </form>
+                                                     
+                        </div>                        
+                    </div>
+                    <div class="card mt-3 ms-3" >
+                        <div class="card-header">
+                            <div class="row flex-between-center">
+                                <div class="col-auto col-sm-6 col-lg-7">
+                                <h6 class="mb-0 text-nowrap py-2 py-xl-0">Periodo</h6>
+                                </div>
+                                <div class="col-auto col-sm-6 col-lg-5">
+                                
+                                    <div class="input-group">
+                                        <input id="id_range_select" class="form-control form-control-sm datetimepicker ps-4" type="text" data-options='{"mode":"range","dateFormat":"Y-m-d","disableMobile":true}'/>
+                                        <div class="input-group-text bg-transparent"><span class="fas fa-calendar-alt text-primary fs--1 "></span></div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="row flex-between-center">
+                                <div class="col-12">
+                                    
+                                </div>
+                                <div class="col-12">                    
+                                    <div class="">
+                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
+                        <div class="card-body p-0">
+                            <div class="scrollbar">
+                                <table class="table table-bordered table-striped fs--1 mb-0" id="tblRegkardex" style="width:100%">
+                                    <thead class="bg-200 text-900">
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th>Entrada</th>
+                                            <th>Salida</th>
+                                            <th>Saldo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody ></tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <form class="row g-2 needs-validation" novalidate="" method="POST" action="{{ route('GuardarCantidad') }}">
-            @csrf
-                <div class="col-md-6">
-                    <label class="form-label" for="art_cant_ingreso">Existencia Fisica Actual:</label>
-                    <input class="form-control"  type="text" id="art_cant_ingreso" name='art_cant_ingreso' size=20 maxlength=12 onkeypress='return isNumberKey(event)' required="" placeholder="0.00">
-                    <div class="invalid-feedback">Ingrese una Cantidad.</div>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="form-label" for="cant_jumbos">Jumbos</label>
-                    <input class="form-control"  type="text" id="id_jumbos" name='cant_jumbos' size=20 maxlength=12 onkeypress='return isNumberKey(event)' required="" placeholder="0.00">
-                    <div class="invalid-feedback">Ingrese una Cantidad.</div>
-                </div>
-
-                <div class="col-md-12 d-none">
-                    <input class="form-control"  type="text" id='art_code' name="art_code" >
-                </div>
-                <div class="col-12">
-                    <button class="btn btn-bg-inn btn-primary" type="submit">Guardar</button>
-                </div>
-            </form>
-
-                
             </div>
         </div>
         </div>
     </div>
+
+    
         <!--CLOSE MODALS -->
 
         

@@ -1,4 +1,8 @@
 <script type="text/javascript">
+    const startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
+    const endOfMonth   = moment().subtract(0, "days").format("YYYY-MM-DD");
+
+
     var Selectors = {
         TABLE_SETTING: '#modal_new_product',
         TABLE_UPLOARD: '#modal_upload'
@@ -9,6 +13,22 @@
     var TableExcel;
    
     $(document).ready(function () {
+
+        
+
+        var labelRange = startOfMonth + " al " + endOfMonth;
+
+        $('#id_range_select').val(labelRange);
+
+        $('#id_range_select').change(function () {
+            Fechas = $(this).val().split("al");
+            if(Object.keys(Fechas).length >= 2 ){
+                var ArticuloID = $("#art_code").val()
+                getKardexLogs(ArticuloID,Fechas[0],Fechas[1]);
+            } 
+        }); 
+
+        
         
 
        
@@ -42,10 +62,10 @@
     });
 
   
-    function OpenModal(Articulo){
+    function OpenModal(Articulo,Event){
         var HeaderArticulo = Articulo.DESCRIPCION 
         var FooterArticulo = Articulo.ARTICULO + " | " + Articulo.UND
-
+        
 
         $("#articulos_header").text(HeaderArticulo) 
         $("#articulos_footer").text(FooterArticulo)
@@ -58,10 +78,19 @@
         $("#id_existencia_actual").text(_CANTIDAD  + " " + Articulo.UND) 
         $("#id_created_at").text(Articulo.CREATED_AT) 
         
-        $("#art_code").val(Articulo.ID)
+        $("#art_code").val(Articulo.ID);
+        $("#id_event").val(Event);
+
+        getKardexLogs(Articulo.ID,startOfMonth,endOfMonth)
         
-        $("#art_cant_ingreso").val(_FISICO)
+        
+        $("#exist_actual").val(_FISICO)
         $("#id_jumbos").val(_JUMBOS)
+
+        var lbl = (Event == 'In')? "Kardex [ Entrada ]" : "Kardex [ Salida ]" ; 
+
+        $("#id_lbl_modal_kardex").text(lbl)
+        initTable("#tblRegkardex")
 
         var TABLE_SETTING = document.querySelector(Selectors.TABLE_SETTING);
         var modal = new window.bootstrap.Modal(TABLE_SETTING);
@@ -98,7 +127,7 @@
         $(id+"_filter").hide();
     }
    
-    function table_render(Table,datos,Header,Filter){
+    function table_render(Table,datos,Header,columnDefs,Filter){
 
         TableExcel = $(Table).DataTable({
             "data": datos,
@@ -106,11 +135,11 @@
             "info": false,
             "bPaginate": true,
             "order": [
-                [0, "asc"]
+                [0, "DESC"]
             ],
             "lengthMenu": [
-                [10, -1],
-                [10, "Todo"]
+                [7, -1],
+                [7, "Todo"]
             ],
             "language": {
                 "zeroRecords": "NO HAY COINCIDENCIAS",
@@ -125,7 +154,7 @@
                 "search": "BUSCAR"
             },
             'columns': Header,
-           
+            "columnDefs": columnDefs,
             rowCallback: function( row, data, index ) {
                 if ( data.Index == 'N/D' ) {
                     $(row).addClass('table-danger');
@@ -178,13 +207,19 @@
                         }
 
                         if (/^[0-9N]/.test(_Codigo.charAt(0))){
-                            dta_table_excel.push({ 
-                                Articulo: _Codigo,
-                                Descr   : _Descr,
-                                Unida   : _Unida,
-                                Total   : _Total,
-                                Jumbo   : _Jumbo
-                            })
+
+                            if(_Total != '00.00'){
+
+                                dta_table_excel.push({ 
+                                    Articulo: _Codigo,
+                                    Descr   : _Descr,
+                                    Unida   : _Unida,
+                                    Total   : _Total,
+                                    Jumbo   : _Jumbo
+                                })
+
+                            }
+                            
                             
                         }
                     });
@@ -218,7 +253,8 @@
                         {"title": "Fisica","data": "Total"},
                         {"title": "Jumbo","data": "Jumbo"},
                     ]
-                    table_render('#tbl_excel',dta_table_excel,dta_table_header,false)
+                    dta_columnDefs = [{"className": "dt-center", "targets": [ ]},]
+                    table_render('#tbl_excel',dta_table_excel,dta_table_header,dta_columnDefs,false)
                 }
             })
         };
@@ -297,6 +333,89 @@
         var xl2json = new ExcelToJSON();
         xl2json.parseExcel(files[0]);
     }
+
+    function getKardexLogs(ArticuloID,startOfMonth,endOfMonth)
+        {
+            dta_table_kardex = [];
+            $.ajax({
+            url: "postKardex",
+            data: {
+                ArticuloID   : ArticuloID,
+                DateStart   : startOfMonth,
+                DateEnd   : endOfMonth,
+                _token  : "{{ csrf_token() }}" 
+            },
+            type: 'post',
+            async: true,
+            success: function(response) {
+                if(response){
+
+                    response.forEach((response) => {
+
+                        var _ENTRADA = numeral(response.ENTRADA).format('0,0.00')
+                        var _SALIDA = numeral(response.SALIDA).format('0,0.00')
+                        var _STOCK = numeral(response.STOCK).format('0,0.00')
+
+                        dta_table_kardex.push({ 
+                            ID: response.ID,
+                            TIPO_MOVIMIENTO   : response.TIPO_MOVIMIENTO,
+                            FECHA   : response.FECHA,
+                            _ENTRADA   :_ENTRADA,
+                            _SALIDA   : _SALIDA,
+                            _STOCK   : _STOCK
+                        })
+                        
+
+
+                    });
+
+                    dta_header_kardex = [
+                        {"title": "ID","data": "ID"}, 
+                        {"title": "","data": "ID", "render": function(data, type, row, meta) {
+
+                        var evColor = (row.TIPO_MOVIMIENTO == 'In')? 'success' : 'warning' ;
+                        var evLabel = (row.TIPO_MOVIMIENTO == 'In')? 'Entrada ' : 'Salida' ;
+                        var eLetter = (row.TIPO_MOVIMIENTO == 'In')? 'I ' : 'O' ;
+                        var eIcon   = (row.TIPO_MOVIMIENTO == 'In')? 'fas fa-arrow-left' : 'fas fa-arrow-right' ;
+
+                        return`<tr>
+                                <td class="log">
+                                    <div class="d-flex align-items-center position-relative">
+                                        <div class="avatar avatar-xl">
+                                            <div class="avatar-name rounded-circle text-white bg-` + evColor + ` fs-0"><span>` + eLetter + `</span></div>
+                                        </div>
+                                        <div class="flex-1 ms-3">
+                                            <p class="text-500 fs--2 mb-0">` + row.FECHA + ` | <span class="badge badge rounded-pill badge-soft-` + evColor + `">` + evLabel + `<span class="ms-1 ` +eIcon + `" data-fa-transform="shrink-2"></span></span> </p>
+                                            <h6 class="mb-0 fw-semi-bold">` + evLabel + ` de Inventario registrada</h6>
+                                            <p class="text-500 fs--2 mb-0">Numero de Registro # ` + row.ID + `</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                
+                            </tr>`
+
+                    }},
+                    {"title": "Entrada","data": "_ENTRADA"}, 
+                    {"title": "Salida","data": "_SALIDA"},                                     
+                    {"title": "Saldo","data": "_STOCK"},
+                ]
+
+                dta_columnDefs = [{"visible": false,"searchable": false,"targets": [0]},{"className": "align-middle dt-right", "targets": [2,3,4]},]
+                table_render('#tblRegkardex',dta_table_kardex,dta_header_kardex,dta_columnDefs,false)
+
+
+                    
+
+                }
+                },
+            error: function(response) {
+                //Swal.fire("Oops", "No se ha podido guardar!", "error");
+            }
+            }).done(function(data) {
+                //CargarDatos(nMes,annio);
+            });
+
+        }
     function isValue(value, def, is_return) {
         if ( $.type(value) == 'null'
             || $.type(value) == 'undefined'
