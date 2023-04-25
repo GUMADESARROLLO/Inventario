@@ -28,6 +28,14 @@ class InventarioController extends Controller {
         $response = ArticuloKardex::getKardex($request);
         return response()->json($response);
     }
+    public function getKardex(Request $request)
+    {
+        $d1 = $request->input('startDate');
+        $d2 = $request->input('endDate');
+
+        $Kardex = ArticuloKardex::getReporteKardex($request);
+        return view('Inventario.Kardex', compact('Kardex','d1','d2'));
+    }
 
     public function GuardarCantidad(Request $request)
     {

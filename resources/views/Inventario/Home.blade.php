@@ -27,6 +27,9 @@
                                 <div class="input-group-text bg-transparent" id="btn_upload">
                                     <span class="fas fa-upload fs--1 text-success" ></span>
                                 </div>
+                                <div class="input-group-text bg-transparent" id="btn_kardex">
+                                    <span class="fas fa-boxes fs--1 text-success" ></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -193,9 +196,34 @@
     <!--    End of Main Content-->
     <!-- ===============================================-->
 
+    <div class="modal fade" id="modal_kardex" tabindex="-1" >
+          <div class="modal-dialog">
+            <div class="modal-content border">
+              <form autocomplete="off" method="POST" novalidate=""  action="{{ route('getKardex') }}">@csrf
+                <div class="modal-header px-card bg-light border-bottom-0">
+                  <h5 class="modal-title">Filtro de Kardex</h5>
+                  <button class="btn-close me-n1" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-card">
+                  <div class="mb-3">
+                    <label class="fs-0" for="eventStartDate">Fecha Inicio</label>
+                    <input class="form-control datetimepicker" required="" id="eventStartDate" type="text" required="required" name="startDate" value="{{date('Y-m-d', strtotime(date('Y-m-01')))}}" placeholder="{{date('Y/m/d')}}" data-options='{"static":"true","enableTime":"false","dateFormat":"Y-m-d"}' />
+                  </div>
+                  <div class="mb-3">
+                    <label class="fs-0" for="eventEndDate">Fecha de Fin</label>
+                    <input class="form-control datetimepicker" required="" id="eventEndDate" type="text" name="endDate" value="{{date('Y-m-d')}}" placeholder="{{date('Y/m/d')}}" data-options='{"static":"true","enableTime":"false","dateFormat":"Y-m-d"}' />
+                  </div>
+                </div>
+                <div class="card-footer d-flex justify-content-end align-items-center bg-light">
+                  <button class="btn btn-primary px-4" type="submit">Crear</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
 
     <!--OPEN MODALS -->
-    <div class="modal fade" id="modal_new_product" tabindex="-1">
+    <div class="modal fade" id="modal_new_product" tabindex="-1" >
         <div class="modal-dialog modal-xl">
             <div class="modal-content border-0">
                 <div class="modal-header px-5 position-relative modal-shape-header bg-shape-inn">
