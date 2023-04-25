@@ -365,7 +365,8 @@
                             FECHA   : response.FECHA,
                             _ENTRADA   :_ENTRADA,
                             _SALIDA   : _SALIDA,
-                            _STOCK   : _STOCK
+                            _STOCK   : _STOCK,
+                            OBSERVACION   : response.OBSERVACION
                         })
                         
 
@@ -390,7 +391,8 @@
                                         <div class="flex-1 ms-3">
                                             <p class="text-500 fs--2 mb-0">` + row.FECHA + ` | <span class="badge badge rounded-pill badge-soft-` + evColor + `">` + evLabel + `<span class="ms-1 ` +eIcon + `" data-fa-transform="shrink-2"></span></span> </p>
                                             <h6 class="mb-0 fw-semi-bold">` + evLabel + ` de Inventario registrada</h6>
-                                            <p class="text-500 fs--2 mb-0">Numero de Registro # ` + row.ID + `</p>
+                                            <p class="text-500 fs--2 mb-0">Numero de Registro # ` + row.ID + `</p> 
+                                            
                                         </div>
                                     </div>
                                 </td>
@@ -398,12 +400,13 @@
                             </tr>`
 
                     }},
+                    {"title": "Observacion","data": "OBSERVACION"},
                     {"title": "Entrada","data": "_ENTRADA"}, 
                     {"title": "Salida","data": "_SALIDA"},                                     
                     {"title": "Saldo","data": "_STOCK"},
                 ]
 
-                dta_columnDefs = [{"visible": false,"searchable": false,"targets": [0]},{"className": "align-middle dt-right", "targets": [2,3,4]},]
+                dta_columnDefs = [{"visible": false,"searchable": false,"targets": [0]},{"className": "align-middle dt-right", "targets": [3,4,5]},{"className": "align-middle dt-center", "targets": [2]},]
                 table_render('#tblRegkardex',dta_table_kardex,dta_header_kardex,dta_columnDefs,false)
 
 

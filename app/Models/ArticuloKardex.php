@@ -83,6 +83,7 @@ class ArticuloKardex extends Model
                 $datos_a_insertar[$key]['FECHA']            = date('Y-m-d');
                 $datos_a_insertar[$key]['USUARIO']          = Auth::id();
                 $datos_a_insertar[$key]['created_at']       = date('Y-m-d H:i:s');
+                $datos_a_insertar[$key]['OBSERVACION']      = 'INVENTARIO INICIAL';
                 
             }
             ArticuloKardex::insert($datos_a_insertar); 

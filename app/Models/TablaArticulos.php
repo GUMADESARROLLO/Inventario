@@ -50,6 +50,7 @@ class TablaArticulos extends Model
                 $ev                     = $request->input('id_event');
                 $JB                     = $request->input('cant_jumbos');
                 $Feha                   = $request->input('dateEvent');
+                $observaciones          = $request->input('observaciones');
                 $Feha                   = date('Y-m-d',strtotime($Feha));
 
                 $Articulo               = Articulos::find($id);
@@ -65,6 +66,7 @@ class TablaArticulos extends Model
                 $obj->STOCK             = $Existencia;
                 $obj->TIPO_MOVIMIENTO   = $ev;
                 $obj->FECHA             = $Feha;
+                $obj->OBSERVACION       = $observaciones;
                 $obj->USUARIO           = Auth::id();
                 $obj->save();
                 

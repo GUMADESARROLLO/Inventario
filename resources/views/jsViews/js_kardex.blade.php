@@ -7,7 +7,7 @@ $(document).ready(function () {
     });
     var table = $('#tbl_kardex').DataTable(
         {
-        scrollY:        "900px",
+        scrollY:        "500px",
         scrollX:        true,
         scrollCollapse: true,
         paging:         false,

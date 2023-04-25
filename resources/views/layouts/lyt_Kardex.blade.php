@@ -38,7 +38,6 @@
     <link href="{{ asset('css/theme_gumadesk/css/user.min.css') }}" rel="stylesheet" id="user-style-default">
     <link href="{{ asset('js/theme_gumadesk/vendors/choices/choices.min.css') }}" rel="stylesheet" >
     <link href="{{ asset('css/jquery.dataTables.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.2.2/css/fixedColumns.bulma.min.css">
     <script>
         var linkRTL = document.getElementById('style-rtl');
         linkRTL.setAttribute('disabled', true);
@@ -101,8 +100,9 @@
     
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>  
     <script src="https://cdn.datatables.net/fixedcolumns/3.2.2/js/dataTables.fixedColumns.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bulma.min.js"></script>
     
+    <script src="{{ asset('js/theme_gumadesk/vendors/popper/popper.min.js') }}"></script>
+    <script src="{{ asset('js/theme_gumadesk/vendors/bootstrap/bootstrap.min.js') }}"></script>
     @yield('metodosjs')
     <script type="text/javascript">
 

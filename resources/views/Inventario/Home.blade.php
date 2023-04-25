@@ -304,6 +304,10 @@
                                 <button class="btn btn-bg-inn btn-primary" type="submit">Guardar</button>
                             </div>
                           </div>
+                            <div class="mb-3">
+                                <label class="fs-0" for="eventDescription">Observaciones</label>
+                                <textarea class="form-control" rows="3" name="observaciones" id="eventDescription"></textarea>
+                            </div>
                         </div>
                        
                         
@@ -344,6 +348,7 @@
                                         <tr>
                                             <th></th>
                                             <th></th>
+                                            <th>Observacion</th>
                                             <th>Entrada</th>
                                             <th>Salida</th>
                                             <th>Saldo</th>
