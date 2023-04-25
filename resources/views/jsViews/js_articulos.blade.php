@@ -5,7 +5,8 @@
 
     var Selectors = {
         TABLE_SETTING: '#modal_new_product',
-        TABLE_UPLOARD: '#modal_upload'
+        TABLE_UPLOARD: '#modal_upload',
+        TABLE_KARDEX: '#modal_kardex'
     };
 
     dta_table_excel = [];
@@ -44,14 +45,16 @@
         
 
         $("#btn_upload").click(function(){
-
-            
-
             var addMultiRow = document.querySelector(Selectors.TABLE_UPLOARD);
             var modal = new window.bootstrap.Modal(addMultiRow);
             modal.show();
+        });
 
-
+        
+        $("#btn_kardex").click(function(){
+            var addMultiRow = document.querySelector(Selectors.TABLE_KARDEX);
+            var modal = new window.bootstrap.Modal(addMultiRow);
+            modal.show();
         });
 
         $('#frm-upload').on("change", function(e){ 
