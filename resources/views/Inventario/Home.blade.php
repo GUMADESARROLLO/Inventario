@@ -42,7 +42,6 @@
                         <tr>
                             <th class="sort pe-1 align-middle white-space-nowrap">ARTICULO</th>
                             <th class="sort pe-1 align-middle white-space-nowrap">EXISITENCIA</th>
-                            <th class="sort pe-1 align-middle white-space-nowrap">JUMBOS</th>
                             <th class="sort pe-1 align-middle white-space-nowrap">ULTIMA MODIFICACION</th>
                         </tr>
                     </thead>
@@ -51,25 +50,24 @@
                             <td class="align-middle">
                                 <div class="d-flex align-items-center position-relative"><img class="rounded-1" src="{{ asset('images/item.png') }}"alt="" width="60">
                                     <div class="flex-1 ms-3">
-                                        <h6 class="mb-1 fw-semi-bold text-nowrap">{{ strtoupper($producto->DESCRIPCION) }} </h6>
-                                        <p class="fs--2 mb-0">{{ strtoupper($producto->ARTICULO) }} | {{ strtoupper($producto->UND) }}                                             
+                                        <h6 class="mb-0 fw-semi-bold text-nowrap">{{ $producto->ARTICULO }} | {{ $producto->DESCRIPCION }} [{{ $producto->UND }}]</h6>
+                                        <p class="fs--2 mb-0">                                              
                                             @if (Auth::user()->id_rol == 4 || Auth::user()->id_rol == 1)
                                                 <span class="ms-1  badge rounded-pill bg-primary"> {{ $producto->user->rol->descripcion }}</span> 
                                             @endif
                                                
                                         
-                                        </p>   
-                                                      
+                                        </p>  
                                         <div class="row g-0 fw-semi-bold text-center py-2 fs--1">
                                             <div class="col-auto">
                                                 <a class="rounded-2 d-flex align-items-center me-3 text-700" href="#!" onclick="OpenModal({{ strtoupper($producto) }},'In')"> 
-                                                <span class="ms-1 fas fa-upload text-success  " data-fa-transform="shrink-2" ></span> 
-                                                <span class="ms-1">Entrada</span></a>
+                                                <span class="ms-1 fas fa-download text-success  " data-fa-transform="shrink-2" ></span> 
+                                                <span class="ms-1">Ingreso</span></a>
                                             </div>
                                             <div class="col-auto">
                                                 <a class="rounded-2 d-flex align-items-center me-3 text-700" href="#!" onclick="OpenModal({{ strtoupper($producto) }},'Out')"> 
-                                                <span class="ms-1 fas fa-download text-warning " data-fa-transform="shrink-2" ></span> 
-                                                <span class="ms-1">Salida</span></a>
+                                                <span class="ms-1 fas fa-upload text-warning " data-fa-transform="shrink-2" ></span> 
+                                                <span class="ms-1">Egreso</span></a>
                                             </div>
                                             <div class="col-auto d-flex align-items-center invisible">
                                                 <a class="rounded-2 text-700 d-flex align-items-center" href="#!" onclick="" >
@@ -83,13 +81,16 @@
                             <td class="align-middle white-space-nowrap ps-5 py-2">
                                 <h6 class="mb-0">{{ number_format($producto->CANTIDAD,2) }} {{ strtoupper($producto->UND) }}</h6>
                             </td>
-                            <td class="align-middle white-space-nowrap ps-5 py-2">
-                                <h6 class="mb-0">{{ number_format($producto->JUMBOS,2) }} </h6>
-                            </td>                        
                             
                             <td class="align-middle white-space-nowrap ps-5 py-2">
-                                <h6 class="mb-0">{{ date('D, M d, Y h:i', strtotime($producto->created_at))  }} </h6>
+                                <?php
+                                setlocale(LC_ALL, 'es_ES');
+                                $fecha = new DateTime($producto->created_at);
+                                $fechaFormateada = $fecha->format('D, M d, Y h:i');
+                                ?>
+                                <h6 class="mb-0">{{ $fechaFormateada }}</h6>
                             </td>
+
                         </tr>
                         @endforeach
                     </tbody>
@@ -169,7 +170,6 @@
                                 <th>Descripcion</th>
                                 <th>Unidad</th>
                                 <th>Fisica</th>
-                                <th>Jumbos</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -286,12 +286,12 @@
                             <input class="form-control"  type="text" id='exist_actual' name="exist_actual" >
                         </div>  
                         <div class="row gx-2">
-                          <div class="mb-2 col-sm-4">  
+                          <div class="mb-2 col-sm-8">  
                             <label class="form-label" for="art_cant_ingreso">Cantidad</label>                          
                             <input class="form-control" id="art_cant_ingreso" type="text" name='art_cant_ingreso' size=20 maxlength=12 onkeypress='return isNumberKey(event)' required="" placeholder="0.00"/>
                             <div class="invalid-feedback">Ingrese una Cantidad.</div>
                           </div>
-                          <div class="mb-2 col-sm-4">
+                          <div class="mb-2 col-sm-4 d-none">
                             <label class="form-label" for="art_cant_ingreso">Jumbos</label>
                             <input class="form-control" id="id_jumbos" type="text" name='cant_jumbos' size=20 maxlength=12 onkeypress='return isNumberKey(event)' required="" placeholder="0.00"/>
                             <div class="invalid-feedback">Ingrese una Cantidad.</div>
@@ -319,7 +319,7 @@
                         <div class="card-header">
                             <div class="row flex-between-center">
                                 <div class="col-auto col-sm-6 col-lg-7">
-                                <h6 class="mb-0 text-nowrap py-2 py-xl-0">Periodo</h6>
+                                <h6 class="mb-0 text-nowrap py-2 py-xl-0">Registro de Ingreso & Egresos.</h6>
                                 </div>
                                 <div class="col-auto col-sm-6 col-lg-5">
                                 
@@ -348,9 +348,8 @@
                                         <tr>
                                             <th></th>
                                             <th></th>
-                                            <th>Observacion</th>
-                                            <th>Entrada</th>
-                                            <th>Salida</th>
+                                            <th>Ingreso</th>
+                                            <th>Egreso</th>
                                             <th>Saldo</th>
                                         </tr>
                                     </thead>

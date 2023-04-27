@@ -1,6 +1,4 @@
 <?php
-
-
 namespace App\Models;
 use Auth;
 use Illuminate\Http\Request;
@@ -12,6 +10,10 @@ class ArticuloKardex extends Model
     protected $connection = 'sqlsrv';
     public $timestamps = false;
     protected $table = "PRODUCCION.dbo.tbl_inventario_innova_kardex";
+    public function articulo()
+    {
+        return $this->belongsTo(Articulos::class,'ID_ART');
+    }
 
     public static function getKardex(Request $request)
     {
@@ -47,8 +49,10 @@ class ArticuloKardex extends Model
         
         $Rows = DB::connection('sqlsrv')->select('SET NOCOUNT ON ;EXEC PRODUCCION.dbo.gnet_calcular_kardex '."'".$d1."'".','."'".$d2."'".', '."'".$Id."'".'');
         foreach($Rows as $r){
+        
             $json_arrays['header_date_rows'][$i]['ARTICULO'] = $r->ARTICULO;
             $json_arrays['header_date_rows'][$i]['DESCRIPCION'] = $r->DESCRIPCION;
+            $json_arrays['header_date_rows'][$i]['UND'] = $r->UND;
             foreach($json_arrays['header_date'] as $dtFecha => $valor){
 
                 $rows_in = 'IN01_'.date('Ymd',strtotime($valor));
@@ -67,30 +71,68 @@ class ArticuloKardex extends Model
         return $json_arrays;
     }
 
-    public static function InitKardex(Request $request){
+    public static function initKardex(Request $request)
+    {
         try {
-            $datos_a_insertar = array();    
-            $Articulos = Articulos::getArticulos();
-            ArticuloKardex::where('USUARIO', Auth::id())->delete();
-            foreach ($Articulos as $key => $val) {
-                $datos_a_insertar[$key]['ID_ART']           = $val->ID;
-                $datos_a_insertar[$key]['ARTICULO']         = $val->ARTICULO;
-                $datos_a_insertar[$key]['DESCRIPCION']      = $val->DESCRIPCION;
-                $datos_a_insertar[$key]['ENTRADA']          = 0;
-                $datos_a_insertar[$key]['SALIDA']           = 0;
-                $datos_a_insertar[$key]['STOCK']            = $val->CANTIDAD;
-                $datos_a_insertar[$key]['TIPO_MOVIMIENTO']  = 'In';
-                $datos_a_insertar[$key]['FECHA']            = date('Y-m-d');
-                $datos_a_insertar[$key]['USUARIO']          = Auth::id();
-                $datos_a_insertar[$key]['created_at']       = date('Y-m-d H:i:s');
-                $datos_a_insertar[$key]['OBSERVACION']      = 'INVENTARIO INICIAL';
-                
+            $inserts = array(); // Nombres en plural para variables que contienen múltiples valores
+            $articulosKardex = array(); // Cambiado el nombre de la variable para seguir estándares
+
+            // Se busca en la tabla ArticuloKardex los artículos que ya han sido agregados al kardex por el usuario actual
+            $articulosKardex = ArticuloKardex::where('USUARIO', Auth::id())->groupBy('ID_ART')->pluck('ID_ART')->toArray();
+
+            // Se buscan los artículos que aún no han sido agregados al kardex
+            $articulos = Articulos::getArticulos()->whereNotIn('ID', $articulosKardex);
+
+            // Se recorre el array de artículos no agregados para preparar el array de inserts
+            foreach ($articulos as $key => $val) {
+                $inserts[$key]['ID_ART']           = $val->ID;
+                $inserts[$key]['ARTICULO']         = $val->ARTICULO;
+                $inserts[$key]['DESCRIPCION']      = $val->DESCRIPCION;
+                $inserts[$key]['ENTRADA']          = 0;
+                $inserts[$key]['SALIDA']           = 0;
+                $inserts[$key]['STOCK']            = $val->CANTIDAD;
+                $inserts[$key]['TIPO_MOVIMIENTO']  = 'In';
+                $inserts[$key]['FECHA']            = date('Y-m-d');
+                $inserts[$key]['USUARIO']          = Auth::id();
+                $inserts[$key]['created_at']       = date('Y-m-d H:i:s');
+                $inserts[$key]['OBSERVACION']      = 'INVENTARIO INICIAL';
             }
-            ArticuloKardex::insert($datos_a_insertar); 
+
+            // Se insertan los datos en la tabla ArticuloKardex
+            ArticuloKardex::insert($inserts);
             
         } catch (Exception $e) {
-            $mensaje =  'Excepción capturada: ' . $e->getMessage() . "\n";
+            $mensaje = 'Excepción capturada: ' . $e->getMessage() . "\n";
             return response()->json($mensaje);
+        }
+    }
+
+    public static function rmKardex(Request $request)
+    {
+        if ($request->ajax()) {
+            try {
+
+                $id         = $request->input('id');
+                $registro   = ArticuloKardex::find($id);
+                $articulo   = $registro->articulo;
+                $Cantidad   = $articulo->getCANTIDAD();                
+
+                $Cantidad = ($registro->TIPO_MOVIMIENTO=='In')? $Cantidad - $registro->ENTRADA : $Cantidad + $registro->SALIDA;
+
+                Articulos::where('ID',  $registro->ID_ART)->update([
+                    "CANTIDAD"  => $Cantidad,
+                    "created_at"    => date('Y-m-d H:i:s')
+                ]);
+                
+                $response =   ArticuloKardex::where('ID',  $id)->delete();
+
+                return response()->json($response);
+
+
+            } catch (Exception $e) {
+                $mensaje =  'Excepción capturada: ' . $e->getMessage() . "\n";
+                return response()->json($mensaje);
+            }
         }
     }
 }

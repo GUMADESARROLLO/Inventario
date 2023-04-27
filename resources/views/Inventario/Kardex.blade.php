@@ -41,8 +41,8 @@
                     </tr>
                     <tr>
                         @foreach ($Kardex['header_date'] as $k) 
-                            <th>Entrada</th>
-                            <th>Salida</th>
+                            <th>Ingreso</th>
+                            <th>Egreso</th>
                             <th>Saldo</th>
                         @endforeach
                     </tr>
@@ -54,7 +54,7 @@
                                 <div class="d-flex align-items-center position-relative">                              
                               <div class="flex-1">
                                 <h6 class="mb-0 fw-semi-bold"> {{$r['DESCRIPCION']}}</h6>
-                                <p class="text-500 fs--2 mb-0"> {{$r['ARTICULO']}} | UND</p>
+                                <p class="text-500 fs--2 mb-0"> {{$r['ARTICULO']}} | {{$r['UND']}}</p>
                               </div>
                             </div>
                             </td>

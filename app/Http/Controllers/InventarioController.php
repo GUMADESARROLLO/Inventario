@@ -3,7 +3,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Articulos;
 use Illuminate\Http\Request;
-use App\Models\TablaArticulos;
 use App\Models\ArticuloKardex;
 
 class InventarioController extends Controller {
@@ -20,7 +19,7 @@ class InventarioController extends Controller {
 
     public function postGuardarInventario(Request $request)
     {
-        $response = TablaArticulos::GuardarListas($request);
+        $response = Articulos::GuardarListas($request);
         return response()->json($response);
     }
     public function postKardex(Request $request)
@@ -30,7 +29,7 @@ class InventarioController extends Controller {
     }
     public function InitKardex(Request $request)
     {
-        ArticuloKardex::InitKardex($request);
+        ArticuloKardex::initKardex($request);
     }
 
     public function getKardex(Request $request)
@@ -42,10 +41,16 @@ class InventarioController extends Controller {
         return view('Inventario.Kardex', compact('Kardex','d1','d2'));
     }
 
+    public function rmKardex(Request $request)
+    {
+        $response = ArticuloKardex::rmKardex($request);
+        return response()->json($response);
+    }
+
     public function GuardarCantidad(Request $request)
     {
         
-        TablaArticulos::GuardarCantidad($request);
+        Articulos::GuardarCantidad($request);
         
         return back()->withInput();
     }
