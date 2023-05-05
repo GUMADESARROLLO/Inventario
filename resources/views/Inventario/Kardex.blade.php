@@ -38,6 +38,7 @@
                         @foreach ($Kardex['header_date'] as $k) 
                             <th colspan="3" style="text-align:center">{{date('d-M-y',strtotime($k))}}</th>
                         @endforeach
+                        <th colspan="3" style="text-align:center">Ult. Registro</th>
                     </tr>
                     <tr>
                         @foreach ($Kardex['header_date'] as $k) 
@@ -45,6 +46,9 @@
                             <th>Egreso</th>
                             <th>Saldo</th>
                         @endforeach
+                            <th>Ingreso</th>
+                            <th>Egreso</th>
+                            <th>Saldo</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,7 +66,12 @@
                                 <td> <p class="text-end">{{$r['IN01_'.date('Ymd',strtotime($k))]}}</p> </td>
                                 <td> <p class="text-end">{{$r['OUT02_'.date('Ymd',strtotime($k))]}}</p></td>
                                 <td> <p class="text-end">{{$r['STOCK03_'.date('Ymd',strtotime($k))]}}</p></td>
+
+                                
                             @endforeach
+                            <td> <p class="text-end">{{$r['IN_TODAY']}}</p></td>
+                            <td> <p class="text-end">{{$r['OUT_TODAY']}}</p></td>
+                            <td> <p class="text-end">{{$r['STOCK_TODAY']}}</p></td>
                         </tr>
                     @endforeach
                 </tbody>
