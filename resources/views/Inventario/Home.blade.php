@@ -286,12 +286,12 @@
                             <input class="form-control"  type="text" id='exist_actual' name="exist_actual" >
                         </div>  
                         <div class="row gx-2">
-                          <div class="mb-2 col-sm-8">  
+                          <div class="mb-2 col-sm-4">  
                             <label class="form-label" for="art_cant_ingreso">Cantidad</label>                          
                             <input class="form-control" id="art_cant_ingreso" type="text" name='art_cant_ingreso' size=20 maxlength=12 onkeypress='return isNumberKey(event)' required="" placeholder="0.00"/>
                             <div class="invalid-feedback">Ingrese una Cantidad.</div>
                           </div>
-                          <div class="mb-2 col-sm-4 d-none">
+                          <div class="mb-2 col-sm-4">
                             <label class="form-label" for="art_cant_ingreso">Jumbos</label>
                             <input class="form-control" id="id_jumbos" type="text" name='cant_jumbos' size=20 maxlength=12 onkeypress='return isNumberKey(event)' required="" placeholder="0.00"/>
                             <div class="invalid-feedback">Ingrese una Cantidad.</div>
