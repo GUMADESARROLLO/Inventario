@@ -6,7 +6,7 @@
             <span class="d-none d-sm-inline-block">| </span><br class="d-sm-none" /> <?php echo "Copyright ".date("Y").""?> &copy; </p>
         </div>
         <div class="col-12 col-sm-auto text-center">
-        <p class="mb-0 text-600">v1.0.0</p>
+        <p class="mb-0 text-600">v1.2.0</p>
         </div>
     </div>
 </footer>
