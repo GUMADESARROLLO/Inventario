@@ -1,4 +1,4 @@
-@extends('layouts.lyt_kardex')
+@extends('layouts.lyt_Kardex')
 @section('metodosjs')
 @include('jsViews.js_kardex')
 @endsection
