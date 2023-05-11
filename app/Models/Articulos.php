@@ -10,7 +10,7 @@ class Articulos extends Model
 {
     protected $connection = 'sqlsrv';
     public $timestamps = false;
-    protected $table = "PRODUCCION.dbo.tbl_inventario_innova_dev";
+    protected $table = "PRODUCCION.dbo.tbl_inventario_innova";
 
   
     public function user()
