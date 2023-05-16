@@ -28,7 +28,7 @@ class LoginController extends Controller
             break;
             
         }*/
-        return 'Articulos';
+        return 'Home';
     }
 
     /**

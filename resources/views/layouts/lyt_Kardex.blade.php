@@ -19,8 +19,9 @@
     <!--    Stylesheets-->
     <!-- ===============================================-->
     
-    <script src="{{ asset('js/theme_gumadesk/config.js') }}"></script>
-    <script src="{{ asset('js/theme_gumadesk/vendors/overlayscrollbars/OverlayScrollbars.min.js') }}"></script>
+    <link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet"/>
+    <link href="https://cdn.datatables.net/fixedcolumns/3.2.2/css/fixedColumns.dataTables.min.css" rel="stylesheet"/>
+    
     <link href="{{ asset('js/theme_gumadesk/vendors/flatpickr/flatpickr.min.css') }}" rel="stylesheet" >
     <link href="{{ asset('js/theme_gumadesk/vendors/glightbox/glightbox.min.css') }}" rel="stylesheet" >
     <link href="{{ asset('js/theme_gumadesk/vendors/plyr/plyr.css') }}" rel="stylesheet" >
@@ -32,8 +33,6 @@
     <link href="{{ asset('js/theme_gumadesk/vendors/swiper/swiper-bundle.min.css') }}" rel="stylesheet" >
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
-    <link href="{{ asset('js/theme_gumadesk/vendors/overlayscrollbars/OverlayScrollbars.min.css') }}" rel="stylesheet" >
-    
     <link href="{{ asset('css/theme_gumadesk/css/theme.min.css') }}" rel="stylesheet" id="style-default">
     <link href="{{ asset('css/theme_gumadesk/css/theme-rtl.css') }}" rel="stylesheet" id="style-rtl">
     <link href="{{ asset('css/theme_gumadesk/css/user.min.css') }}" rel="stylesheet" id="user-style-default">
@@ -93,45 +92,17 @@
 
     <!-- ===============================================-->
     <!--    JavaScripts-->
-    <!-- ===============================================-->
-
-    <script src="{{ asset('js/theme_gumadesk/vendors/popper/popper.min.js') }}"></script>
-    <script src="{{ asset('js/theme_gumadesk/vendors/bootstrap/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/theme_gumadesk/vendors/anchorjs/anchor.min.js') }}"></script>
-    <script src="{{ asset('js/theme_gumadesk/vendors/is/is.min.js') }}"></script>
-    <script src="{{ asset('js/theme_gumadesk/vendors/swiper/swiper-bundle.min.js') }}"></script>
-    <script src="{{ asset('js/theme_gumadesk/vendors/glightbox/glightbox.min.js') }}"></script>    
-    <script src="{{ asset('js/theme_gumadesk/flatpickr.js') }}"></script>
-    <script src="{{ asset('js/theme_gumadesk/vendors/echarts/echarts.min.js') }}"></script>    
-    <script src="{{ asset('js/theme_gumadesk/world.js') }}"></script>
-    <script src="{{ asset('js/theme_gumadesk/vendors/plyr/plyr.polyfilled.min.js') }}"></script>    
-    <script src="{{ asset('js/theme_gumadesk/vendors/countup/countUp.umd.js') }}"></script>    
-    <script src="{{ asset('js/theme_gumadesk/vendors/chart/chart.min.js') }}"></script>
-    <script src="{{ asset('js/theme_gumadesk/vendors/dropzone/dropzone.min.js') }}"></script>
-    <script src="{{ asset('js/theme_gumadesk/vendors/leaflet/leaflet.js') }}"></script>
-    <script src="{{ asset('js/theme_gumadesk/vendors/leaflet.markercluster/leaflet.markercluster.js') }}"></script>
-    <script src="{{ asset('js/theme_gumadesk/vendors/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js') }}"></script>
-    <script src="{{ asset('js/theme_gumadesk/vendors/tinymce/tinymce.min.js') }}"></script>
-    <script src="{{ asset('js/theme_gumadesk/vendors/dayjs/dayjs.min.js') }}"></script>
-    <script src="{{ asset('js/theme_gumadesk/vendors/fullcalendar/main.min.js') }}" ></script>
+    <!-- ===============================================-->  
     <script src="{{ asset('js/theme_gumadesk/vendors/fontawesome/all.min.js') }}"></script>
-    <script src="{{ asset('js/theme_gumadesk/vendors/lodash/lodash.min.js') }}"></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
-    <script src="{{ asset('js/theme_gumadesk/vendors/list.js/list.min.js') }}"></script>
-    <script src="{{ asset('js/theme_gumadesk/theme.js') }}"></script>
-    <script src="{{ asset('js/theme_gumadesk/vendors/choices/choices.min.js') }}"></script>
-    <script src="{{ asset('js/moment.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/es.min.js"></script>
-    <script src="{{ asset('js/Numeral.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+
+
     <script src="{{ asset('js/jquery-3.5.1.js') }}"></script>
     
-    <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>    
-    <script src="{{ asset('js/jszip.js') }}"></script>
-    <script src="{{ asset('js/xlsx.js') }}"></script>
-    <script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>  
+    <script src="https://cdn.datatables.net/fixedcolumns/3.2.2/js/dataTables.fixedColumns.min.js"></script>
+    
+    <script src="{{ asset('js/theme_gumadesk/vendors/popper/popper.min.js') }}"></script>
+    <script src="{{ asset('js/theme_gumadesk/vendors/bootstrap/bootstrap.min.js') }}"></script>
     @yield('metodosjs')
     <script type="text/javascript">
 
