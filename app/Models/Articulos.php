@@ -10,12 +10,19 @@ class Articulos extends Model
 {
     protected $connection = 'sqlsrv';
     public $timestamps = false;
-    protected $table = "PRODUCCION.dbo.tbl_inventario_innova_dev";
+    protected $table = "PRODUCCION.dbo.tbl_inventario_innova";
 
-  
     public function user()
     {
         return $this->belongsTo(Usuario::class, 'ID_USER');
+    }
+    public function Clasificacion1()
+    {
+        return $this->hasOne(Clasificacion::class, 'ID','Clasificacion_1');
+    }
+    public function Clasificacion2()
+    {
+        return $this->hasOne(Clasificacion::class, 'ID','Clasificacion_2');
     }
     public function articuloKardex()
     {
@@ -64,6 +71,29 @@ class Articulos extends Model
                 
                 
                 return $response;
+                
+            } catch (Exception $e) {
+                $mensaje =  'Excepción capturada: ' . $e->getMessage() . "\n";
+                return response()->json($mensaje);
+            }
+        }
+    }
+
+    public static function UpdateArticulo(Request $request) {
+        if ($request->ajax()) {
+            try {
+
+                $id_clasificacion_1     = $request->input('id_clasificacion_1');
+                $id_clasificacion_2     = $request->input('id_clasificacion_2');
+                $id_Pro                 = $request->input('ID_iTEM');
+
+
+                $response =   Articulos::where('ID',  $id_Pro)->update([
+                    "Clasificacion_1" => $id_clasificacion_1,
+                    "Clasificacion_2" => $id_clasificacion_2,
+                ]);
+
+                return response()->json($response);
                 
             } catch (Exception $e) {
                 $mensaje =  'Excepción capturada: ' . $e->getMessage() . "\n";

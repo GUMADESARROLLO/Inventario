@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Articulos;
 use Illuminate\Http\Request;
 use App\Models\ArticuloKardex;
+use App\Models\Clasificacion;
 
 class InventarioController extends Controller {
     public function __construct()
@@ -53,5 +54,18 @@ class InventarioController extends Controller {
         Articulos::GuardarCantidad($request);
         
         return back()->withInput();
+    }
+
+    public function getArticulos()
+    {  
+        $Articulos      = Articulos::getArticulos();
+        $Clasifica      = Clasificacion::all();
+        
+        return view('Inventario.Articulos', compact('Articulos','Clasifica'));         
+    }
+    public function UpdateArticulo(Request $request)
+    {
+        $response = Articulos::UpdateArticulo($request);
+        return response()->json($response);
     }
 }  

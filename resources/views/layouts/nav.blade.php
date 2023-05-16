@@ -2,7 +2,7 @@
 <nav class="navbar navbar-light navbar-glass navbar-top navbar-expand">
 
 
-<a class="navbar-brand me-1 me-sm-3" href="{{ url('Articulos') }}">
+<a class="navbar-brand me-1 me-sm-3" href="{{ url('Home') }}">
   <div class="row gx-0 align-items-center">
     
     @if (Auth::id() == '3')
@@ -79,12 +79,10 @@
       <div class="bg-white dark__bg-1000 rounded-2 py-2"> 
         @if( Session::get('rol') == '1')
           <a class="dropdown-item" href="{{ route('Usuarios') }}"> <span class="fas fa-user-tie me-1"></span>USUARIOS </a>
+          <a class="dropdown-item" href="{{ route('Articulos') }}"><span class="fas fa-boxes me-1"></span>PRODUCTOS</a>
           <div class="dropdown-divider"></div>
         @endif
-        
-        
-        <a class="dropdown-item" href="{{ route('logout') }}" >Salir</a>
-        
+        <a class="dropdown-item" href="{{ route('logout') }}"><span class="fas fa-sign-out-alt me-1"></span>Salir</a>
       </div>
     </div>
   </li>
