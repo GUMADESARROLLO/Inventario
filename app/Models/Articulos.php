@@ -26,7 +26,7 @@ class Articulos extends Model
     }
     public function articuloKardex()
     {
-        return $this->hasMany(ArticuloKardex::class,'ID_ART');
+        return $this->hasMany(Kardex::class,'ID_ART');
     }
     public function getCANTIDAD()
     {
@@ -65,7 +65,7 @@ class Articulos extends Model
                     
                 }
                 $response = Articulos::insert($datos_a_insertar); 
-                ArticuloKardex::initKardex($request);
+                Kardex::initKardex($request);
 
 
                 
@@ -120,7 +120,7 @@ class Articulos extends Model
 
                 $Existencia             = ($ev == 'In') ? $Cantidad_actual + $cantidad_evento : max($Cantidad_actual - $cantidad_evento, 0);
 
-                $obj                    = new ArticuloKardex();
+                $obj                    = new Kardex();
                 $obj->ID_ART            = $id;
                 $obj->ARTICULO          = $Articulo->ARTICULO;
                 $obj->DESCRIPCION       = $Articulo->DESCRIPCION;

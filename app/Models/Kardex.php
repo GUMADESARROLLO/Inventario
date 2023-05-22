@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class ArticuloKardex extends Model
+class Kardex extends Model
 {
     protected $connection = 'sqlsrv';
     public $timestamps = false;
@@ -20,7 +20,7 @@ class ArticuloKardex extends Model
         $id = $request->input('ArticuloID');
         $d1 = $request->input('DateStart');
         $d2 = $request->input('DateEnd');
-        return ArticuloKardex::where('ID_ART ',$id)
+        return Kardex::where('ID_ART ',$id)
                 ->orderBy('ID', 'DESC')
                 ->whereBetween('FECHA', [$d1, $d2])
                 ->get();
@@ -35,7 +35,7 @@ class ArticuloKardex extends Model
         $i = 0 ;
         $Id = Auth::id();
 
-        $dtFechas = ArticuloKardex::select('FECHA')
+        $dtFechas = Kardex::select('FECHA')
                 ->whereBetween('FECHA', [$d1, $d2])
                 ->groupBy('FECHA')
                 ->get();
@@ -84,8 +84,8 @@ class ArticuloKardex extends Model
             $inserts = array(); // Nombres en plural para variables que contienen múltiples valores
             $articulosKardex = array(); // Cambiado el nombre de la variable para seguir estándares
 
-            // Se busca en la tabla ArticuloKardex los artículos que ya han sido agregados al kardex por el usuario actual
-            $articulosKardex = ArticuloKardex::where('USUARIO', Auth::id())->groupBy('ID_ART')->pluck('ID_ART')->toArray();
+            // Se busca en la tabla Kardex los artículos que ya han sido agregados al kardex por el usuario actual
+            $articulosKardex = Kardex::where('USUARIO', Auth::id())->groupBy('ID_ART')->pluck('ID_ART')->toArray();
 
             // Se buscan los artículos que aún no han sido agregados al kardex
             $articulos = Articulos::getArticulos()->whereNotIn('ID', $articulosKardex);
@@ -105,8 +105,8 @@ class ArticuloKardex extends Model
                 $inserts[$key]['OBSERVACION']      = 'INVENTARIO INICIAL';
             }
 
-            // Se insertan los datos en la tabla ArticuloKardex
-            ArticuloKardex::insert($inserts);
+            // Se insertan los datos en la tabla Kardex
+            Kardex::insert($inserts);
             
         } catch (Exception $e) {
             $mensaje = 'Excepción capturada: ' . $e->getMessage() . "\n";
@@ -120,7 +120,7 @@ class ArticuloKardex extends Model
             try {
 
                 $id         = $request->input('id');
-                $registro   = ArticuloKardex::find($id);
+                $registro   = Kardex::find($id);
                 $articulo   = $registro->articulo;
                 $Cantidad   = $articulo->getCANTIDAD();                
 
@@ -131,7 +131,7 @@ class ArticuloKardex extends Model
                     "created_at"    => date('Y-m-d H:i:s')
                 ]);
                 
-                $response =   ArticuloKardex::where('ID',  $id)->delete();
+                $response =   Kardex::where('ID',  $id)->delete();
 
                 return response()->json($response);
 

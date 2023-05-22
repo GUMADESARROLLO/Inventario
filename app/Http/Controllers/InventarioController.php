@@ -3,7 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Articulos;
 use Illuminate\Http\Request;
-use App\Models\ArticuloKardex;
+use App\Models\Kardex;
 use App\Models\Clasificacion;
 
 class InventarioController extends Controller {
@@ -25,12 +25,12 @@ class InventarioController extends Controller {
     }
     public function postKardex(Request $request)
     {
-        $response = ArticuloKardex::getKardex($request);
+        $response = Kardex::getKardex($request);
         return response()->json($response);
     }
     public function InitKardex(Request $request)
     {
-        ArticuloKardex::initKardex($request);
+        Kardex::initKardex($request);
     }
 
     public function getKardex(Request $request)
@@ -38,13 +38,13 @@ class InventarioController extends Controller {
         $d1 = $request->input('startDate');
         $d2 = $request->input('endDate');
 
-        $Kardex = ArticuloKardex::getReporteKardex($request);
+        $Kardex = Kardex::getReporteKardex($request);
         return view('Inventario.Kardex', compact('Kardex','d1','d2'));
     }
 
     public function rmKardex(Request $request)
     {
-        $response = ArticuloKardex::rmKardex($request);
+        $response = Kardex::rmKardex($request);
         return response()->json($response);
     }
 
