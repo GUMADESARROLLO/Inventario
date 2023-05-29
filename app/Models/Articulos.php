@@ -62,6 +62,8 @@ class Articulos extends Model
                     $datos_a_insertar[$key]['JUMBOS']           = 0;       
                     $datos_a_insertar[$key]['created_at']       = date('Y-m-d H:i:s');
                     $datos_a_insertar[$key]['ID_USER']          = Auth::id();
+                    $datos_a_insertar[$key]['Clasificacion_1']  = 1;
+                    $datos_a_insertar[$key]['Clasificacion_2']  = 1;
                     
                 }
                 $response = Articulos::insert($datos_a_insertar); 
