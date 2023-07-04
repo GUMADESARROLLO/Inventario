@@ -49,7 +49,7 @@ class Kardex extends Model
 
         $Stock = 0 ;
         
-        $Rows = DB::connection('sqlsrv')->select('SET NOCOUNT ON ;EXEC PRODUCCION.dbo.gnet_calcular_kardex '."'".$d1."'".','."'".$d2."'".', '."'".$Id."'".'');
+        $Rows = DB::connection('sqlsrv')->select('SET NOCOUNT ON ;EXEC PRODUCCION.dbo.gnet_calc_kardex '."'".$d1."'".','."'".$d2."'".', '."'".$Id."'".'');
         foreach($Rows as $r){
 
 
@@ -63,17 +63,12 @@ class Kardex extends Model
                 $rows_out = 'OUT02_'.date('Ymd',strtotime($valor));
                 $rows_stock = 'STOCK03_'.date('Ymd',strtotime($valor));
 
-                $Stock = ($r->$rows_stock=='0.0' || $r->$rows_stock=='00.00') ? ($Stock + $r->$rows_in - $r->$rows_out): $r->$rows_stock ;
-                $Stock= ( $Stock < 0 ) ? $r->$rows_stock : $Stock ;
-                
+                $Stock = $r->$rows_stock;                
 
                 $json_arrays['header_date_rows'][$i][$rows_in] = ($r->$rows_in=='0.0' || $r->$rows_in=='00.00') ? '' : number_format($r->$rows_in,2)  ;
                 $json_arrays['header_date_rows'][$i][$rows_out] = ($r->$rows_out=='0.0' || $r->$rows_out=='00.00') ? '' : number_format($r->$rows_out,2);
                 $json_arrays['header_date_rows'][$i][$rows_stock] =  number_format($Stock,2);
 
-                $json_arrays['header_date_rows'][$i]['IN_TODAY'] = ($r->IN_TODAY=='0.0' || $r->IN_TODAY=='00.00') ? '' : number_format($r->IN_TODAY,2)  ;
-                $json_arrays['header_date_rows'][$i]['OUT_TODAY'] = ($r->OUT_TODAY=='0.0' || $r->OUT_TODAY=='00.00') ? '' : number_format($r->OUT_TODAY,2);
-                $json_arrays['header_date_rows'][$i]['STOCK_TODAY'] =($r->STOCK_TODAY=='0.0' || $r->STOCK_TODAY=='00.00') ? '' : number_format($r->STOCK_TODAY,2) ;
             }
             $Stock = 0 ;
             $i++;
